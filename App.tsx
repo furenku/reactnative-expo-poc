@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Login } from './components/Login/Login';
-import { Test } from './components/Test/Test';
+import { MyCamera } from './components/MyCamera/MyCamera';
 
 const App: React.FC = () => {
 
@@ -8,7 +8,7 @@ const App: React.FC = () => {
 
   if (isLoggedIn) {
     return (
-      <Test/>
+      <MyCamera onPictureTaken={(uri: string) => console.log('Picture taken:', uri)} />
     );
   }
 
