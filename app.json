@@ -13,7 +13,10 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +24,8 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.RNPoC"
+      "package": "com.anonymous.RNPoC",
+      "runtimeVersion": "1.0.0"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -31,6 +35,9 @@
         "projectId": "ad59ea26-dfc6-4e75-9d09-aef56cb3d056"
       }
     },
-    "owner": "furenku"
+    "owner": "furenku",
+    "updates": {
+      "url": "https://u.expo.dev/ad59ea26-dfc6-4e75-9d09-aef56cb3d056"
+    }
   }
 }
