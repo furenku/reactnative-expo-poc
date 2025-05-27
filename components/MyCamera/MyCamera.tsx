@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
 import { Camera, CameraType, CameraView } from 'expo-camera';
 
 interface Props {
-  onPictureTaken?: (uri: string) => void;
+  onPictureTaken: (uri: string) => void;
 }
 
 export const MyCamera: React.FC<Props> = ({ onPictureTaken }) => {
@@ -27,6 +27,8 @@ export const MyCamera: React.FC<Props> = ({ onPictureTaken }) => {
           base64: false,
           // ... other options
         });
+
+        onPictureTaken( photo.uri )
         // Handle the photo
       } catch (error) {
         console.error('Error taking picture:', error);
