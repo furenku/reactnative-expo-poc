@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Alert, Image } from 'react-native';
+import { storeData } from '../../utils/storage';
 
 interface Props { onSuccess: () => void }
 
@@ -7,8 +8,11 @@ export const Login: React.FC<Props> = ({ onSuccess }) => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (username === 'abc' && password === 'abc') {
+      // Store login state
+      await storeData('isLoggedIn', true);
+      await storeData('username', username);
       onSuccess();
     } else {
       Alert.alert('Error', 'Invalid username or password');
