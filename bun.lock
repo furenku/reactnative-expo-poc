@@ -6,6 +6,7 @@
       "dependencies": {
         "@expo/metro-runtime": "~5.0.4",
         "expo": "~53.0.9",
+        "expo-asset": "~11.1.5",
         "expo-camera": "^16.1.6",
         "expo-dev-client": "~5.1.8",
         "expo-media-library": "^17.1.6",

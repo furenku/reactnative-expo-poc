@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert, Image } from 'react-native';
 
 interface Props { onSuccess: () => void }
 
@@ -18,21 +18,39 @@ export const Login: React.FC<Props> = ({ onSuccess }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <Button title="Login" onPress={handleLogin} />
+      <View style={{
+          width: 200,
+          height: 200,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+
+        <Image source={require('../../assets/images/accionar_logo.png')} style={{
+          width: 200,
+          height: 200,
+          marginBottom: 20,
+          overflow: 'hidden',
+          objectFit: 'contain'
+        }} />
+        <Text style={styles.text}>Login</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+        <Button title="Login" onPress={handleLogin} />
+      
+      </View>
     </View>
   );
 };
