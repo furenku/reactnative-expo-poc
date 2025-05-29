@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
-import { baseStyles } from '../../styles/base';
-import { colors, spacing, borderRadius } from '../../theme/theme';
+import { colors, spacing, borderRadius } from '@/theme/theme';
+import { useBaseStyles } from '@/styles/useBaseStyles';
 
 interface ButtonProps {
   title: string;
@@ -18,6 +18,9 @@ export const Button: React.FC<ButtonProps> = ({
   style,
   textStyle 
 }) => {
+
+  const baseStyles = useBaseStyles();
+
   const buttonStyle = variant === 'primary' ? baseStyles.button : baseStyles.buttonSecondary;
   
   return (

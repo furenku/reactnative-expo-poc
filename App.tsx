@@ -7,8 +7,15 @@ import { CameraCapturedPicture } from 'expo-camera';
 import { useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { getData } from './utils/storage';
+import { useFontsHook } from './theme/theme';
+import { Test } from './components/Test/Test';
+import { ThemeProvider } from '@/context/ThemeContext';
+
 
 const App: React.FC = () => {
+
+  const fontsLoaded = useFontsHook();
+
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
@@ -35,12 +42,12 @@ const App: React.FC = () => {
   };
 
   const handleSavePhoto = async () => {
-    if (capturedPhoto) {
+  if (capturedPhoto) {
       try {
         const asset = await MediaLibrary.createAssetAsync(capturedPhoto);
         await MediaLibrary.createAlbumAsync('MyAppPhotos', asset, false);
         console.log('Photo saved to gallery:', asset.uri);
-        
+
         // Reset to camera view after saving
         setCapturedPhoto(null);
       } catch (error) {
@@ -53,30 +60,31 @@ const App: React.FC = () => {
     setCapturedPhoto(null);
   };
 
-  // Show loading screen while checking login state
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <Text>Loading...</Text>
-      </View>
-    );
+  if (!fontsLoaded) {
+    return null; // or loading component
   }
 
-  if (!isLoggedIn) {
-    return <Login onSuccess={handleLoginSuccess} />;
-  }
+  return (
+    <ThemeProvider>
+      {isLoading ? (
+        <View style={styles.loadingContainer}>
+          <Text>Loading...</Text>
+        </View>
+      ) : !isLoggedIn ? (
+        <Login onSuccess={handleLoginSuccess} />
+      ) : capturedPhoto ? (
+        <PhotoResult
+          imageUri={capturedPhoto}
+          onRetake={handleRetakePhoto}
+          onSave={handleSavePhoto}
+        />
+      ) : (
+        <Test/>
+        // <MyCamera onPictureTaken={handlePictureTaken} />
 
-  if (capturedPhoto) {
-    return (
-      <PhotoResult
-        imageUri={capturedPhoto}
-        onRetake={handleRetakePhoto}
-        onSave={handleSavePhoto}
-      />
-    );
-  }
-
-  return <MyCamera onPictureTaken={handlePictureTaken} />;
+      )}
+    </ThemeProvider>
+  );
 };
 
 const styles = StyleSheet.create({

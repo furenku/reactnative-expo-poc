@@ -1,28 +1,22 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { baseStyles } from '@/styles/base';
-import { colors, spacing, typography } from '@/theme/theme';
+import { StyleSheet, View } from 'react-native';
+import { useBaseStyles } from '@/styles/useBaseStyles';
+// import { Text } from '../ui/Text';
+import { Text } from '../ui/Text';
+
 
 export const Test: React.FC = () => {
+  const ui = useBaseStyles();
+ 
   return (
-    <View style={[baseStyles.containerCentered, styles.customContainer]}>
-      <Text style={[baseStyles.headingLarge, styles.customText]}>Test</Text>
-      <Text style={[baseStyles.textSecondary, styles.subtitle]}>
-        Design System Demo
-      </Text>
+    <View style={[ ui.containerCentered, ui.column, styles.customContainer]}>
+      <Text style={[ui.text, ui.bold]}>Test</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   customContainer: {
-    backgroundColor: colors.white,
-  },
-  customText: {
-    color: colors.primary,
-    marginBottom: spacing.sm,
-  },
-  subtitle: {
-    fontSize: typography.fontSize.medium,
-  },
+    gap: 8
+  }
 });

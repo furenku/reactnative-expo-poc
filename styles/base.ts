@@ -1,18 +1,21 @@
 import { StyleSheet } from 'react-native';
-import { colors, spacing, typography, borderRadius } from '../theme/theme';
+import { Theme } from '@/types/theme';
 
-export const baseStyles = StyleSheet.create({
-  // Layout
+// Convert static styles to a function that accepts theme
+export const createBaseStyles = (theme: Theme) => StyleSheet.create({
+  app: {
+    fontFamily: theme.typography.fonts?.extraBold || 'System'
+  },
   container: {
     flex: 1,
-    padding: spacing.md,
-    backgroundColor: colors.background,
+    padding: theme.spacing.md,
+    backgroundColor: theme.colors.background,
   },
   containerCentered: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.background,
+    backgroundColor: theme.colors.background,
   },
   row: {
     flexDirection: 'row',
@@ -22,66 +25,83 @@ export const baseStyles = StyleSheet.create({
     flexDirection: 'column',
   },
 
-  // Typography
+  
   text: {
-    color: colors.text,
-    fontSize: typography.fontSize.medium,
-    lineHeight: typography.lineHeight.medium,
-  },
-  textSmall: {
-    color: colors.text,
-    fontSize: typography.fontSize.small,
-    lineHeight: typography.lineHeight.small,
-  },
-  textLarge: {
-    color: colors.text,
-    fontSize: typography.fontSize.large,
-    lineHeight: typography.lineHeight.large,
-  },
-  heading: {
-    fontSize: typography.fontSize.xlarge,
-    fontWeight: typography.fontWeight.bold,
-    color: colors.text,
-    lineHeight: typography.lineHeight.xlarge,
-  },
-  headingLarge: {
-    fontSize: typography.fontSize.xxlarge,
-    fontWeight: typography.fontWeight.bold,
-    color: colors.text,
-  },
-  textSecondary: {
-    color: colors.textSecondary,
-    fontSize: typography.fontSize.medium,
+    fontFamily: theme.typography.fonts.regular,
+    color: theme.colors.text,
+    fontSize: theme.typography.fontSize.medium,
+    lineHeight: theme.typography.lineHeight.medium,
   },
 
-  // Buttons
+  bold: {
+    fontFamily: theme.typography.fonts.bold,
+  },
+
+  textSmall: {
+    color: theme.colors.text,
+    fontSize: theme.typography.fontSize.small,
+    lineHeight: theme.typography.lineHeight.small,
+  },
+  textLarge: {
+    color: theme.colors.text,
+    fontSize: theme.typography.fontSize.large,
+    lineHeight: theme.typography.lineHeight.large,
+  },
+  heading: {
+    fontSize: theme.typography.fontSize.xlarge,
+    fontFamily: theme.typography.fontWeight.bold,
+    color: theme.colors.text,
+    lineHeight: theme.typography.lineHeight.xlarge,
+  },
+  headingLarge: {
+    fontSize: theme.typography.fontSize.xxlarge,
+    fontFamily: theme.typography.fontWeight.bold,
+    color: theme.colors.text,
+  },
+  textSecondary: {
+    color: theme.colors.textSecondary,
+    fontSize: theme.typography.fontSize.medium,
+  },
+
   button: {
-    backgroundColor: colors.primary,
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.lg,
-    borderRadius: borderRadius.md,
+    backgroundColor: theme.colors.primary,
+    paddingVertical: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.lg,
+    borderRadius: theme.borderRadius.md,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonSecondary: {
-    backgroundColor: colors.secondary,
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.lg,
-    borderRadius: borderRadius.md,
+    backgroundColor: theme.colors.secondary,
+    paddingVertical: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.lg,
+    borderRadius: theme.borderRadius.md,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
-    color: colors.white,
-    fontSize: typography.fontSize.medium,
-    fontWeight: typography.fontWeight.bold,
+    color: theme.colors.white,
+    fontSize: theme.typography.fontSize.medium,
+    fontFamily: theme.typography.fontWeight.bold,
   },
+
+  
+  textInput: {
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+    backgroundColor: theme.colors.background,
+    color: theme.colors.text,
+  },
+
 
   // Cards and surfaces
   card: {
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.lg,
-    padding: spacing.md,
-    marginBottom: spacing.md,
+    backgroundColor: theme.colors.white,
+    borderRadius: theme.borderRadius.lg,
+    padding: theme.spacing.md,
+    marginBottom: theme.spacing.md,
   },
 });

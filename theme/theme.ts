@@ -1,63 +1,32 @@
-// Theme token types for type safety
-export interface Colors {
-  primary: string;
-  secondary: string;
-  background: string;
-  white: string;
-  text: string;
-  textSecondary: string;
-  danger: string;
-  success: string;
-  warning: string;
-}
+import { BorderRadius, Colors, Spacing, Theme, Typography } from '@/types/theme';
 
-export interface Spacing {
-  xs: number;
-  sm: number;
-  md: number;
-  lg: number;
-  xl: number;
-  xxl: number;
-}
+import {
+  useFonts,
+  // Mulish_200ExtraLight,
+  // Mulish_300Light,
+  Mulish_400Regular,
+  Mulish_500Medium,
+  Mulish_600SemiBold,
+  Mulish_700Bold,
+  Mulish_800ExtraBold,
+  // Mulish_900Black,
+  // Mulish_200ExtraLight_Italic,
+  // Mulish_300Light_Italic,
+  // Mulish_400Regular_Italic,
+  // Mulish_500Medium_Italic,
+  // Mulish_600SemiBold_Italic,
+  // Mulish_700Bold_Italic,
+  // Mulish_800ExtraBold_Italic,
+  // Mulish_900Black_Italic,
+} from '@expo-google-fonts/mulish';
 
-export interface Typography {
-  fontSize: {
-    small: number;
-    medium: number;
-    large: number;
-    xlarge: number;
-    xxlarge: number;
-  };
-  fontWeight: {
-    normal: '400';
-    medium: '500';
-    bold: '700';
-  };
-  lineHeight: {
-    small: number;
-    medium: number;
-    large: number;
-    xlarge: number;
-  };
-}
 
-export interface BorderRadius {
-  sm: number;
-  md: number;
-  lg: number;
-  full: number;
-}
-
-export interface Theme {
-  colors: Colors;
-  spacing: Spacing;
-  typography: Typography;
-  borderRadius: BorderRadius;
-}
-
-// Theme implementation
 export const colors: Colors = {
-  primary: '#007bff',
+  primary: '#ff0044',
+  primaryLight: '#ff8ab0',
+  primaryLighter: '#ffc4d8',
+  primaryDark: '#d10038',
+  primaryDarker: '#990029',
   secondary: '#6c757d',
   background: '#f8f9fa',
   white: '#fff',
@@ -77,7 +46,26 @@ export const spacing: Spacing = {
   xxl: 40,
 };
 
+
 export const typography: Typography = {
+  fonts: {
+    // extraLight: 'Mulish_200ExtraLight',
+    // light: 'Mulish_300Light',
+    regular: 'Mulish_400Regular' as const,
+    medium: 'Mulish_500Medium' as const,
+    semiBold: 'Mulish_600SemiBold' as const,
+    bold: 'Mulish_700Bold' as const,
+    extraBold: 'Mulish_800ExtraBold' as const,
+    // black: 'Mulish_900Black',
+    // extraLightItalic: 'Mulish_200ExtraLight_Italic',
+    // lightItalic: 'Mulish_300Light_Italic',
+    // regularItalic: 'Mulish_400Regular_Italic',
+    // mediumItalic: 'Mulish_500Medium_Italic',
+    // semiBoldItalic: 'Mulish_600SemiBold_Italic',
+    // boldItalic: 'Mulish_700Bold_Italic',
+    // extraBoldItalic: 'Mulish_800ExtraBold_Italic',
+    // blackItalic: 'Mulish_900Black_Italic',
+  },
   fontSize: {
     small: 12,
     medium: 16,
@@ -98,6 +86,7 @@ export const typography: Typography = {
   },
 };
 
+
 export const borderRadius: BorderRadius = {
   sm: 4,
   md: 8,
@@ -110,4 +99,27 @@ export const theme: Theme = {
   spacing,
   typography,
   borderRadius,
+};
+
+export const useFontsHook = () => {
+  const [fontsLoaded] = useFonts({
+    // Mulish_200ExtraLight,
+    // Mulish_300Light,
+    Mulish_400Regular,
+    Mulish_500Medium,
+    Mulish_600SemiBold,
+    Mulish_700Bold,
+    Mulish_800ExtraBold,
+    // Mulish_900Black,
+    // Mulish_200ExtraLight_Italic,
+    // Mulish_300Light_Italic,
+    // Mulish_400Regular_Italic,
+    // Mulish_500Medium_Italic,
+    // Mulish_600SemiBold_Italic,
+    // Mulish_700Bold_Italic,
+    // Mulish_800ExtraBold_Italic,
+    // Mulish_900Black_Italic,
+  });
+
+  return fontsLoaded;
 };
