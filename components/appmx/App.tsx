@@ -1,21 +1,43 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { useBaseStyles } from '@/styles/useBaseStyles';
+import React, { useState, useEffect } from 'react';
+import { Animated } from 'react-native';
 import { Splash } from './Splash/Splash';
+import { Test } from '../Test/Test';
 
+export const App = () => {
+  const [showSplash, setShowSplash] = useState(true);
+  const fadeAnim = new Animated.Value(0);
 
-export const App: React.FC = () => {
-  const ui = useBaseStyles();
- 
+  useEffect(() => {
+    // Fade in animation
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+
+    // After 2.5 seconds, start fade out and hide splash
+    const timer = setTimeout(() => {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }).start(() => {
+        setShowSplash(false);
+      });
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <View style={[ ui.containerCentered, ui.column, styles.customContainer]}>
-      <Splash/>
-    </View>
+    <>
+      {showSplash ? (
+        <Animated.View style={{ opacity: fadeAnim, position: 'absolute', width: '100%', height: '100%', zIndex: 1 }}>
+          <Splash />
+        </Animated.View>
+      ): (
+          <Test/>
+      )}
+    </>
   );
-};
-
-const styles = StyleSheet.create({
-  customContainer: {
-    gap: 8
-  }
-});
+}

@@ -79,8 +79,8 @@ const App: React.FC = () => {
           onSave={handleSavePhoto}
         />
       ) : (
-        <Appmx/>
         // <MyCamera onPictureTaken={handlePictureTaken} />
+        <Appmx/>
 
       )}
     </ThemeProvider>
