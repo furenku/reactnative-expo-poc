@@ -89,7 +89,7 @@ export const createBaseStyles = (theme: Theme) => StyleSheet.create({
   
   textInput: {
     borderWidth: 1,
-    borderColor: theme.colors.primary,
+    borderColor: theme.colors.white,
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
