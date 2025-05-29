@@ -8,7 +8,7 @@ import { useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { getData } from './utils/storage';
 import { useFontsHook } from './theme/theme';
-import { Test } from './components/Test/Test';
+import { App as Appmx } from './components/appmx/App';
 import { ThemeProvider } from '@/context/ThemeContext';
 
 
@@ -79,7 +79,7 @@ const App: React.FC = () => {
           onSave={handleSavePhoto}
         />
       ) : (
-        <Test/>
+        <Appmx/>
         // <MyCamera onPictureTaken={handlePictureTaken} />
 
       )}

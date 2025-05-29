@@ -7,11 +7,12 @@ export const createBaseStyles = (theme: Theme) => StyleSheet.create({
     fontFamily: theme.typography.fonts?.extraBold || 'System'
   },
   container: {
-    flex: 1,
-    padding: theme.spacing.md,
-    backgroundColor: theme.colors.background,
+    flex: 1,    
+    backgroundColor: theme.colors.background    
   },
   containerCentered: {
+    width: '100%',
+    height: '100%',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
