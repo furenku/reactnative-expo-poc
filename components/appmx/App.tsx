@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Animated } from 'react-native';
 import { Splash } from './Splash/Splash';
 import { Test } from '../Test/Test';
+import { TestCameraFlow } from '../TestCameraFlow/TestCameraFlow';
 
 export const App = () => {
   const [showSplash, setShowSplash] = useState(true);
@@ -36,7 +37,7 @@ export const App = () => {
           <Splash />
         </Animated.View>
       ): (
-          <Test/>
+          <TestCameraFlow/>
       )}
     </>
   );
