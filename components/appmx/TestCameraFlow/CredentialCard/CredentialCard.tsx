@@ -40,7 +40,7 @@ export const CredentialCard: React.FC<Props> = ({ photoUri, onDone }) => {
       padding: 0
     },
     header: {
-      backgroundColor: themeCtx.theme.colors.primary,
+      backgroundColor: themeCtx.theme.colors.credential,
       paddingHorizontal: 24,
       paddingVertical: 8,
       flexDirection: 'row',
@@ -81,7 +81,7 @@ export const CredentialCard: React.FC<Props> = ({ photoUri, onDone }) => {
       marginBottom: 5,
     },
     fullName: {
-      color: themeCtx.theme.colors.primary,
+      color: themeCtx.theme.colors.credential,
       fontSize: 22,
       fontWeight: 'bold',
       
@@ -100,7 +100,7 @@ export const CredentialCard: React.FC<Props> = ({ photoUri, onDone }) => {
       marginRight: 8,
     },
     statusText: {
-      color: themeCtx.theme.colors.primary,
+      color: themeCtx.theme.colors.credential,
       fontSize: 10,
     },
     photoContainer: {
@@ -165,7 +165,7 @@ export const CredentialCard: React.FC<Props> = ({ photoUri, onDone }) => {
       fontWeight: '500',
     },
     footer: {
-      backgroundColor: themeCtx.theme.colors.primary,
+      backgroundColor: themeCtx.theme.colors.credential,
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
