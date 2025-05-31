@@ -4,9 +4,9 @@ import { View } from "react-native";
 
 const Container = () => {
   return (
-    <View style={{ width: 320, height: 580,  backgroundColor: '#000',  flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <CredentialCard />
-    </View>
+    
+      <CredentialCard photoUri="https://picsum.photos/200" onDone={() => {}} />
+    
   );
 };
 
@@ -15,6 +15,9 @@ export default {
   title: 'CredentialCard',
   component: Container,
   argTypes: {
+  },
+  parameters: {
+    layout: 'centered',
   },
 };
 

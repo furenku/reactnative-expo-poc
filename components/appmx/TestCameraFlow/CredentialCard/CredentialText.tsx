@@ -14,7 +14,6 @@ export const Text: React.FC<CustomTextProps> = ({
   ...props 
 }) => {
   const { styles } = useTheme();
-  console.log("styles.credentialText", styles);
   
   const getVariantStyle = () => {
     switch (variant) {

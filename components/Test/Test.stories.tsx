@@ -16,6 +16,10 @@ export default {
   component: Container,
   argTypes: {
   },
+  parameters: {
+    layout: 'fullscreen',
+  },
+  
 };
 
 

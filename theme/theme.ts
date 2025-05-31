@@ -44,7 +44,7 @@ import {
 
 
 export const colors: Colors = {
-  primary: '#ff0044',
+  primary: '#611232',
   primaryLight: '#ff8ab0',
   primaryLighter: '#ffc4d8',
   primaryDark: '#d10038',
