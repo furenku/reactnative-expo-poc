@@ -6,7 +6,7 @@ interface Props {
   onPictureTaken: (uri: string) => void;
 }
 
-export const MyCamera: React.FC<Props> = ({ onPictureTaken }) => {
+export const TestCamera: React.FC<Props> = ({ onPictureTaken }) => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const cameraRef = useRef<CameraView>(null);
   const [facing, setFacing] = useState<CameraType>('back');
@@ -72,6 +72,8 @@ export const MyCamera: React.FC<Props> = ({ onPictureTaken }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
