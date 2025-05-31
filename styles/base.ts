@@ -8,8 +8,11 @@ export const createBaseStyles = (theme: Theme) => StyleSheet.create({
     fontFamily: theme.typography.fonts?.extraBold || 'System'
   },
   container: {
+    width: '100%',
+    height: '100%',
     flex: 1,    
-    backgroundColor: theme.colors.background    
+    backgroundColor: theme.colors.background,
+    position: 'relative'
   },
   containerCentered: {
     width: '100%',
@@ -18,6 +21,7 @@ export const createBaseStyles = (theme: Theme) => StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: theme.colors.background,
+    position: 'relative'
   },
   row: {
     flexDirection: 'row',
