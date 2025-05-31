@@ -44,7 +44,7 @@ import {
 
 
 export const colors: Colors = {
-  primary: '#611232',
+  primary: '#006657',
   primaryLight: '#ff8ab0',
   primaryLighter: '#ffc4d8',
   primaryDark: '#d10038',
@@ -57,6 +57,7 @@ export const colors: Colors = {
   danger: '#dc3545',
   success: '#28a745',
   warning: '#ffc107',
+  credential: '#611232',
 };
 
 export const spacing: Spacing = {
