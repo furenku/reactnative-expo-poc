@@ -15,10 +15,7 @@ export default {
   title: 'Test',
   component: Container,
   argTypes: {
-  },
-  parameters: {
-    layout: 'fullscreen',
-  },
+  }
   
 };
 
