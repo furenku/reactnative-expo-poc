@@ -36,7 +36,7 @@ export const Splash: React.FC<Props> = ({ onAnimationComplete }) => {
     <View style={[ui.containerCentered, styles.splashContainer]}>
       {/* Background Image */}
       <Image
-        source={require('@/assets/images/splash-bg.jpg')} // Update path to your background image
+        source={require('@/assets/images/splash-bg.png')} // Update path to your background image
         style={styles.backgroundImage}
         resizeMode="cover"
       />
@@ -59,10 +59,14 @@ const styles = StyleSheet.create({
   splashContainer: {
     flex: 1,
     position: 'relative',
+    width: '100%',
+    height: '100%'
   },
   backgroundImage: {
     position: 'absolute',
-    objectFit: 'cover'
+    objectFit: 'cover',
+    width: '100%',
+    height: '100%'
   },
   logoContainer: {
     position: 'absolute',

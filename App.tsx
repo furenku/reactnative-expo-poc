@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Login } from './components/Login/Login';
-import { MyCamera } from './components/MyCamera/MyCamera';
+import { MyCamera } from './components/appmx/TestCameraFlow/TestCamera/TestCamera';
 import { PhotoResult } from './components/PhotoResult/PhotoResult';
 import { CameraCapturedPicture } from 'expo-camera';
 import { useCameraPermissions } from 'expo-camera';

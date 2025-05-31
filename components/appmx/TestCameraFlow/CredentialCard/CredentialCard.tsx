@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
+
+import { Text } from "./CredentialText"
 
 interface Props {
   photoUri: string;
@@ -8,75 +10,70 @@ interface Props {
 
 export const CredentialCard: React.FC<Props> = ({ photoUri, onDone }) => {
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.card}>
-        {/* Header */}
-        <View style={styles.header}>
-          <View style={styles.headerLeft}>
-            <View style={styles.logoContainer}>
-              <Text style={styles.logoText}>IMSS</Text>
-              <Text style={styles.logoSubtext}>BIENESTAR</Text>
-            </View>
-          </View>
-          <View style={styles.headerRight}>
-            <Text style={styles.headerRightText}>LlaveMX</Text>
+    <View style={styles.card}>
+      {/* Header */}
+      <View style={styles.header}>
+        <View style={styles.headerLeft}>
+          <View style={styles.logoContainer}>
+            <Text style={styles.logoText}>IMSS</Text>
+            <Text style={styles.logoSubtext}>BIENESTAR</Text>
           </View>
         </View>
-
-        {/* Content */}
-        <View style={styles.content}>
-          <Text style={styles.beneficiarioLabel}>Beneficiario</Text>
-          <Text style={styles.fullName}>Emanuel Ricardo{'\n'}Iriarte Gaspar</Text>
-          
-          <View style={styles.statusContainer}>
-            <View style={styles.statusDot} />
-            <Text style={styles.statusText}>Con derecho a servicios médicos</Text>
-          </View>
-
-          <View style={styles.photoContainer}>
-            <Image source={{ uri: photoUri }} style={styles.photo} />
-          </View>
-
-          <View style={styles.infoSection}>
-            <Text style={styles.curpLabel}>CURP</Text>
-            <Text style={styles.curpValue}>IGE790207HDFRSM05</Text>
-
-            <View style={styles.infoRow}>
-              <View style={styles.infoColumn}>
-                <Text style={styles.infoLabel}>Unidad Médica</Text>
-                <Text style={styles.infoValue}>38</Text>
-              </View>
-              <View style={styles.infoColumn}>
-                <Text style={styles.infoLabel}>Núm de afiliación</Text>
-                <Text style={styles.infoValue}>38023598111</Text>
-              </View>
-            </View>
-
-            <Text style={styles.infoLabel}>Inscrito desde</Text>
-            <Text style={styles.infoValue}>20/03/2002</Text>
-
-            <View style={styles.verificationContainer}>
-              <View style={styles.verificationDot} />
-              <Text style={styles.verificationText}>Información verificada</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Footer with placeholder icons */}
-        <View style={styles.footer}>
-          <View style={styles.iconPlaceholder} />
-          <View style={styles.iconPlaceholder} />
-          <View style={styles.iconPlaceholder} />
-          <View style={styles.iconPlaceholder} />
-          <View style={styles.iconPlaceholder} />
-          <View style={styles.iconPlaceholder} />
+        <View style={styles.headerRight}>
+          <Text style={styles.headerRightText}>LlaveMX</Text>
         </View>
       </View>
-      
-      <TouchableOpacity style={styles.doneButton} onPress={onDone}>
-        <Text style={styles.doneButtonText}>Done</Text>
-      </TouchableOpacity>
-    </ScrollView>
+
+      {/* Content */}
+      <View style={styles.content}>
+        <Text style={styles.beneficiarioLabel}>Beneficiario</Text>
+        <Text style={styles.fullName}>Emanuel Ricardo{'\n'}Iriarte Gaspar</Text>
+        
+        <View style={styles.statusContainer}>
+          <View style={styles.statusDot} />
+          <Text style={styles.statusText}>Con derecho a servicios médicos</Text>
+        </View>
+
+        <View style={styles.photoContainer}>
+          <Image source={{ uri: photoUri }} style={styles.photo} />
+        </View>
+
+        <View style={styles.infoSection}>
+          <Text style={styles.curpLabel}>CURP</Text>
+          <Text style={styles.curpValue}>IGE790207HDFRSM05</Text>
+
+          <View style={styles.infoRow}>
+            <View style={styles.infoColumn}>
+              <Text style={styles.infoLabel}>Unidad Médica</Text>
+              <Text style={styles.infoValue}>38</Text>
+            </View>
+            <View style={styles.infoColumn}>
+              <Text style={styles.infoLabel}>Núm de afiliación</Text>
+              <Text style={styles.infoValue}>38023598111</Text>
+            </View>
+          </View>
+
+          <Text style={styles.infoLabel}>Inscrito desde</Text>
+          <Text style={styles.infoValue}>20/03/2002</Text>
+
+          <View style={styles.verificationContainer}>
+            <View style={styles.verificationDot} />
+            <Text style={styles.verificationText}>Información verificada</Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Footer with placeholder icons */}
+      <View style={styles.footer}>
+        <View style={styles.iconPlaceholder} />
+        <View style={styles.iconPlaceholder} />
+        <View style={styles.iconPlaceholder} />
+        <View style={styles.iconPlaceholder} />
+        <View style={styles.iconPlaceholder} />
+        <View style={styles.iconPlaceholder} />
+      </View>
+    </View>
+            
   );
 };
 

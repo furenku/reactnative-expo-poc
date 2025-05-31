@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Theme } from '@/types/theme';
 
+
 // Convert static styles to a function that accepts theme
 export const createBaseStyles = (theme: Theme) => StyleSheet.create({
   app: {
@@ -29,6 +30,13 @@ export const createBaseStyles = (theme: Theme) => StyleSheet.create({
   
   text: {
     fontFamily: theme.typography.fonts.regular,
+    color: theme.colors.text,
+    fontSize: theme.typography.fontSize.medium,
+    lineHeight: theme.typography.lineHeight.medium,
+  },
+
+  credentialText: {
+    fontFamily: theme.typography.fonts.credential.regular,
     color: theme.colors.text,
     fontSize: theme.typography.fontSize.medium,
     lineHeight: theme.typography.lineHeight.medium,

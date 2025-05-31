@@ -37,6 +37,9 @@ export interface Typography {
     // boldItalic: string;
     // extraBoldItalic: string;
     // blackItalic: string;
+    credential: {
+      regular: string
+    }
   };
   fontSize: {
     small: number;

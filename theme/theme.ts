@@ -21,6 +21,28 @@ import {
 } from '@expo-google-fonts/mulish';
 
 
+import {
+  useFonts as useMFonts,
+    // Mulish_200ExtraLight,
+    // Mulish_300Light,
+    Montserrat_400Regular ,
+    // Mulish_500Medium,
+    // Mulish_600SemiBold,
+    // Mulish_700Bold,
+    // Mulish_800ExtraBold,
+    // Mulish_900Black,
+    // Mulish_200ExtraLight_Italic,
+    // Mulish_300Light_Italic,
+    // Mulish_400Regular_Italic,
+    // Mulish_500Medium_Italic,
+    // Mulish_600SemiBold_Italic,
+    // Mulish_700Bold_Italic,
+    // Mulish_800ExtraBold_Italic,
+    // Mulish_900Black_Italic,
+  } from '@expo-google-fonts/montserrat';
+
+
+
 export const colors: Colors = {
   primary: '#ff0044',
   primaryLight: '#ff8ab0',
@@ -65,6 +87,9 @@ export const typography: Typography = {
     // boldItalic: 'Mulish_700Bold_Italic',
     // extraBoldItalic: 'Mulish_800ExtraBold_Italic',
     // blackItalic: 'Mulish_900Black_Italic',
+    credential: {
+      regular: 'Montserrat_400Regular' as const,
+    }
   },
   fontSize: {
     small: 12,
@@ -102,7 +127,7 @@ export const theme: Theme = {
 };
 
 export const useFontsHook = () => {
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded1] = useFonts({
     // Mulish_200ExtraLight,
     // Mulish_300Light,
     Mulish_400Regular,
@@ -119,7 +144,13 @@ export const useFontsHook = () => {
     // Mulish_700Bold_Italic,
     // Mulish_800ExtraBold_Italic,
     // Mulish_900Black_Italic,
+    
   });
 
-  return fontsLoaded;
+  const [fontsLoaded2] = useMFonts({
+    Montserrat_400Regular    
+  });
+
+
+  return fontsLoaded1 && fontsLoaded2;
 };
