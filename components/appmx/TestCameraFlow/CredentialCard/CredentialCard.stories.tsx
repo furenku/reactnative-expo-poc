@@ -2,27 +2,19 @@ import { CredentialCard } from "@/components/appmx/TestCameraFlow/CredentialCard
 import { View } from "react-native";
 
 
-const Container = () => {
-  return (
-    
-      <CredentialCard photoUri="https://picsum.photos/200" onDone={() => {}} />
-    
-  );
-};
 
 
 export default {
   title: 'CredentialCard',
-  component: Container,
+  component: CredentialCard,
   argTypes: {
-  },
-  parameters: {
-    layout: 'centered',
-  },
+  }
 };
 
 
 export const Default = {
   args: {
+    photoUri: "https://picsum.photos/200",
+    onDone: () => {},
   },
 };
