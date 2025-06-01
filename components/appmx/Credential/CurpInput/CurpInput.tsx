@@ -70,8 +70,7 @@ export const CurpInput: React.FC<{ onContinue: (curp: string) => void; onBack: (
         <Button 
           title="Continuar"
           onPress={handleContinue}
-          disabled={!isValidCurp}
-          
+          disabled={!isValidCurp}          
         />
       </View>
     </View>

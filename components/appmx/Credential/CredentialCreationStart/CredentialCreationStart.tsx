@@ -7,7 +7,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Theme } from '@/types/theme';
 import { useTheme } from '@/context/ThemeContext';
 
-export const CredentialCreationStart: React.FC = () => {
+interface CredentialCreationStartProps {
+  onStart: () => void;
+}
+export const CredentialCreationStart: React.FC<CredentialCreationStartProps> = ({ onStart }) => {
   const ui = useBaseStyles();
   const {theme} = useTheme();
   const styles = createStyles(theme);
@@ -58,7 +61,7 @@ export const CredentialCreationStart: React.FC = () => {
           </View>
         </View>
 
-        <Button title='Crear credencial' onPress={() => {}}/>
+        <Button title='Crear credencial' onPress={onStart}/>
 
       </View>
     </View>
