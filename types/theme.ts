@@ -1,15 +1,25 @@
 export interface Colors {
-  primary: string;
+  surface: string;
   background: string;
+  primary: string;
+  secondary: string;
+  secondaryGold: string;
+  primaryLight: string;
+  primaryLighter: string;
+  primaryDark: string;
+  primaryDarker: string;
   white: string;
   text: string;
   textSecondary: string;
   danger: string;
   success: string;
   warning: string;
-  secondary: {
-    gold: string
-  }
+  neutral: string;
+  neutralDarker: string;
+  neutralDark: string;
+  neutralLight: string;
+  neutralLighter: string;
+  credential: string;
 }
 
 export interface Spacing {

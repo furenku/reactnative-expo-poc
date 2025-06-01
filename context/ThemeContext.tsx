@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState } from 'react';
 import { View } from 'react-native';
 import { Theme } from '@/types/theme';
-import { theme as defaultTheme } from '@/theme/theme';
-import { useFontsHook } from '@/theme/theme';
+import { theme as defaultTheme } from '@/theme/appmxTheme';
+import { useFontsHook } from '@/theme/appmxTheme';
 import { createBaseStyles } from '@/styles/base';
 
 type ThemeContextType = {

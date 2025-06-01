@@ -43,7 +43,9 @@ import {
 
 
 export const colors: Colors = {
+  surface: '#ffffff',
   primary: '#006657',
+  secondary: '#000000',
   primaryLight: '#ff8ab0',
   primaryLighter: '#ffc4d8',
   primaryDark: '#d10038',
@@ -56,9 +58,8 @@ export const colors: Colors = {
   success: '#28a745',
   warning: '#ffc107',
   credential: '#611232',
-  secondary: {
-    gold: '#a57f2c',
-  }
+  neutralDark: '#434343',
+  secondaryGold: '#a57f2c'
 };
 
 export const spacing: Spacing = {

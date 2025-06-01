@@ -94,7 +94,7 @@ export const OnboardingFooter: React.FC<OnboardingFooterProps> = ({
         onPointerDown={onPress}
         style={[
           styles.dot,
-          isActive && [styles.activeDot, { backgroundColor: theme.colors.secondary.gold }]
+          isActive && [styles.activeDot, { backgroundColor: theme.colors.secondaryGold }]
         ]}
       />
     );
