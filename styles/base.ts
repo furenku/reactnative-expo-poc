@@ -50,6 +50,10 @@ export const createBaseStyles = (theme: Theme) => StyleSheet.create({
     fontFamily: theme.typography.fonts.bold,
   },
 
+  semiBold: {
+    fontFamily: theme.typography.fonts.semiBold,
+  },
+
   textSmall: {
     color: theme.colors.text,
     fontSize: theme.typography.fontSize.small,
