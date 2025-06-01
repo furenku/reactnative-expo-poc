@@ -14,7 +14,7 @@ export const Onboarding3: React.FC = () => {
       {/* Image Section with Curved Bottom */}
       <View style={styles.imageContainer}>
         <Image
-          source={{ uri: 'https://picsum.photos/400/500?random=1' }}
+          source={require('@/assets/images/onboarding/onboarding3.png')}
           style={styles.image}
           resizeMode="cover"
         />
@@ -49,7 +49,9 @@ export const Onboarding3: React.FC = () => {
 
         {/* Title */}
         <Text style={[baseStyles.text, styles.title]}>
-          onb3
+          Solicita asistencia
+          <br />
+          CABI 079
         </Text>
 
         {/* Subtitle */}

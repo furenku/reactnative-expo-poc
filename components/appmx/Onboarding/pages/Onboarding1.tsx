@@ -14,7 +14,7 @@ export const Onboarding1: React.FC = () => {
       {/* Image Section with Curved Bottom */}
       <View style={styles.imageContainer}>
         <Image
-          source={{ uri: 'https://picsum.photos/400/500?random=1' }}
+          source={require('@/assets/images/onboarding/onboarding1.png')}
           style={styles.image}
           resizeMode="cover"
         />

@@ -14,7 +14,7 @@ export const Onboarding2: React.FC = () => {
       {/* Image Section with Curved Bottom */}
       <View style={styles.imageContainer}>
         <Image
-          source={{ uri: 'https://picsum.photos/400/500?random=1' }}
+          source={require('@/assets/images/onboarding/onboarding2.png')}
           style={styles.image}
           resizeMode="cover"
         />
@@ -49,12 +49,12 @@ export const Onboarding2: React.FC = () => {
 
         {/* Title */}
         <Text style={[baseStyles.text, styles.title]}>
-          onb2
+          Tu nueva credencial te identifica y te cuida
         </Text>
 
         {/* Subtitle */}
         <Text style={[baseStyles.text, styles.subtitle]}>
-          Comienza a usarla para identificarte ante instituciones públicas.
+          Tu identificación ahora también es tu Credencial para acceder a servicios de salud gratuitos.
         </Text>
       </View>
     </View>
