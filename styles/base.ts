@@ -95,7 +95,7 @@ export const createBaseStyles = (theme: Theme) => StyleSheet.create({
   buttonText: {
     color: theme.colors.white,
     fontSize: theme.typography.fontSize.medium,
-    fontFamily: theme.typography.fontWeight.bold,
+    fontFamily: theme.typography.fonts.semiBold,
   },
 
   

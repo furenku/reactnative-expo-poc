@@ -26,8 +26,7 @@ import {
     // Mulish_200ExtraLight,
     // Mulish_300Light,
     Montserrat_400Regular ,
-    // Mulish_500Medium,
-    // Mulish_600SemiBold,
+    Montserrat_600SemiBold,
     // Mulish_700Bold,
     // Mulish_800ExtraBold,
     // Mulish_900Black,
@@ -49,7 +48,6 @@ export const colors: Colors = {
   primaryLighter: '#ffc4d8',
   primaryDark: '#d10038',
   primaryDarker: '#990029',
-  secondary: '#6c757d',
   background: '#f8f9fa',
   white: '#fff',
   text: '#212529',
@@ -58,6 +56,9 @@ export const colors: Colors = {
   success: '#28a745',
   warning: '#ffc107',
   credential: '#611232',
+  secondary: {
+    gold: '#a57f2c',
+  }
 };
 
 export const spacing: Spacing = {
@@ -90,6 +91,7 @@ export const typography: Typography = {
     // blackItalic: 'Mulish_900Black_Italic',
     credential: {
       regular: 'Montserrat_400Regular' as const,
+      semiBold: 'Montserrat_600SemiBold' as const,
     }
   },
   fontSize: {
@@ -149,7 +151,8 @@ export const useFontsHook = () => {
   });
 
   const [fontsLoaded2] = useMFonts({
-    Montserrat_400Regular    
+    Montserrat_400Regular,
+    Montserrat_600SemiBold    
   });
 
 

@@ -37,7 +37,7 @@ export const App = () => {
           <Splash />
         </Animated.View>
       ): (
-          <TestCameraFlow/>
+        <TestCameraFlow/>
       )}
     </>
   );

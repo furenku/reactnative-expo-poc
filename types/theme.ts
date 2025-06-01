@@ -1,6 +1,5 @@
 export interface Colors {
   primary: string;
-  secondary: string;
   background: string;
   white: string;
   text: string;
@@ -8,6 +7,9 @@ export interface Colors {
   danger: string;
   success: string;
   warning: string;
+  secondary: {
+    gold: string
+  }
 }
 
 export interface Spacing {
@@ -39,6 +41,7 @@ export interface Typography {
     // blackItalic: string;
     credential: {
       regular: string
+      semiBold: string
     }
   };
   fontSize: {

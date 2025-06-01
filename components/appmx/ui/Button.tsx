@@ -8,7 +8,6 @@ interface ButtonProps {
   onPress: () => void;
   variant?: 'primary' | 'secondary';
   style?: ViewStyle;
-  textStyle?: TextStyle;
 }
 
 export const Button: React.FC<ButtonProps> = ({ 
@@ -28,7 +27,7 @@ export const Button: React.FC<ButtonProps> = ({
       style={[buttonStyle, style]} 
       onPress={onPress}
     >
-      <Text style={[baseStyles.buttonText, textStyle]}>{title}</Text>
+      <Text style={[baseStyles.buttonText, baseStyles.buttonText]}>{title}</Text>
     </TouchableOpacity>
   );
 };
