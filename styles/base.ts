@@ -136,4 +136,7 @@ export const createBaseStyles = (theme: Theme) => StyleSheet.create({
     padding: theme.spacing.md,
     marginBottom: theme.spacing.md,
   },
+
+
+  
 });

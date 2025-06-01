@@ -52,7 +52,10 @@ export const colors: Colors = {
   neutralDark: '#434343',
   neutralLight: '#DDDDDD',
   neutralLighter: '#f9f9f9',
-  secondaryGold: '#a57f2c'
+  secondaryGold: '#a57f2c',
+  // Camera specific colors
+  captureButton: '#ff0000',
+  captureButtonInner: '#cc0000',
 };
 
 export const spacing: Spacing = {

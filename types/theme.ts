@@ -20,6 +20,8 @@ export interface Colors {
   neutralLight: string;
   neutralLighter: string;
   credential: string;
+  captureButton: string;
+  captureButtonInner: string;
 }
 
 export interface Spacing {
