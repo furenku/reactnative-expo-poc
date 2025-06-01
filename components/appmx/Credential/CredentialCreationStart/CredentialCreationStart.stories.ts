@@ -2,7 +2,7 @@ import { CredentialCreationStart } from "@/components/appmx/Credential/Credentia
 
 
 export default {
-  title: 'CredentialCreationStart',
+  title: 'components/Credential/CredentialCreationStart',
   component: CredentialCreationStart,
   argTypes: {
   }

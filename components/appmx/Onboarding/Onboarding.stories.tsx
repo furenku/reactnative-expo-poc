@@ -1,7 +1,7 @@
 import { Onboarding } from "@/components/appmx/Onboarding/Onboarding";
 
 export default {
-  title: 'Onboarding',
+  title: 'components/Onboarding',
   component: Onboarding,
   argTypes: {
   }

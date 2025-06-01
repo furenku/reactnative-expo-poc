@@ -5,7 +5,7 @@ import { View } from "react-native";
 
 
 export default {
-  title: 'CredentialCard',
+  title: 'components/CredentialCard',
   component: CredentialCard,
   argTypes: {
   }

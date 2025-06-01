@@ -3,7 +3,7 @@ import { MainLayout } from "@/components/appmx/MainLayout/MainLayout";
 
 
 export default {
-  title: 'MainLayout',
+  title: 'layouts/Main',
   component: MainLayout,
   argTypes: {
   }

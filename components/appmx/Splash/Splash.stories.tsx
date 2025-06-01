@@ -10,7 +10,7 @@ const Container = () => {
 
 
 export default {
-  title: 'Splash',
+  title: 'components/Splash',
   component: Container,
   argTypes: {
   },

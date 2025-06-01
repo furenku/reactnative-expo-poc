@@ -1,7 +1,7 @@
 import { TestCamera } from "@/components/appmx/TestCameraFlow/TestCamera/TestCamera";
 
 export default {
-  title: 'TestCamera',
+  title: 'components/TestCamera',
   component: TestCamera,
   argTypes: {
   }

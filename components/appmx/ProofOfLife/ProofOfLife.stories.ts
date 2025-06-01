@@ -1,7 +1,7 @@
 import { ProofOfLife } from "@/components/appmx/ProofOfLife/ProofOfLife";
 
 export default {
-  title: 'ProofOfLife',
+  title: 'components/ProofOfLife',
   component: ProofOfLife,
   argTypes: {
   }

@@ -12,7 +12,7 @@ const Container = () => {
 
 
 export default {
-  title: 'CredentialApproval',
+  title: 'components/CredentialApproval',
   component: Container,
   argTypes: {
   },
