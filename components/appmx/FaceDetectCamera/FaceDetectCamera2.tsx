@@ -139,6 +139,56 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
 
   // ... existing debugging useEffects ...
 
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  // Remove the faceDetection service initialization since we'll use expo-face-detector directly
+
+  // Function to capture and analyze frame for face detection
+  const analyzeFrame = async () => {
+    if (!cameraRef.current || isProcessing) return;
+
+    try {
+      setIsProcessing(true);
+      
+      // Take a picture for analysis (lower quality for performance)
+      const photo = await cameraRef.current.takePictureAsync({
+        quality: 0.3,
+        base64: false,
+        skipProcessing: true,
+      });
+
+      // Analyze the image for faces
+      const faceDetectionResult = await FaceDetector.detectFacesAsync(photo.uri, {
+        mode: FaceDetector.FaceDetectorMode.fast,
+        detectLandmarks: FaceDetector.FaceDetectorLandmarks.none,
+        runClassifications: FaceDetector.FaceDetectorClassifications.none,
+      });
+
+      // Process the results
+      handleFacesDetected({ faces: faceDetectionResult.faces });
+
+    } catch (error) {
+      console.error('Face detection error:', error);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+
+
+  useEffect(() => {
+    if (!isCameraReady) return;
+
+    const interval = setInterval(() => {
+      analyzeFrame();
+    }, 500); // Check every 500ms
+
+    return () => clearInterval(interval);
+  }, [isCameraReady, isProcessing]);
+
+
+
+
   const takePicture = async () => {
     if (cameraRef.current) {
       try {
@@ -266,10 +316,7 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
         style={styles.camera}
         facing={facing}
         ref={cameraRef}
-        onFacesDetected={handleFacesDetected}
-        onCameraReady={handleCameraReady}
-        onMountError={handleMountError}
-        faceDetectorSettings={isMobile ? faceDetection.getMobileDetectorSettings() : undefined}
+        
       >
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.captureButton} onPress={takePicture}>
@@ -277,20 +324,26 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
           </TouchableOpacity>
         </View>
       </CameraView>
+
       
       {/* Debug info overlay */}
       <Text style={styles.debugText}>
-        FD Status: {faceDetectorStatus} | Detections: {faceDetectionCount} | Camera Ready: {isCameraReady ? 'Yes' : 'No'} | Face Inside: {faceInsideOval ? 'Yes' : 'No'}
+        v0.0.1 - FD Status: {faceDetectorStatus} | Detections: {faceDetectionCount} | Camera Ready: {isCameraReady ? 'Yes' : 'No'} | Face Inside: {faceInsideOval ? 'Yes' : 'No'}
         {lastFaceDetectionTime && ` | Last: ${lastFaceDetectionTime.toLocaleTimeString()}`}
       </Text>
       
       <View
-        style={[
-          styles.oval,
+          style={[
+            styles.oval,
           { borderColor: faceInsideOval ? theme.colors.success : theme.colors.danger },
         ]}
       />
+      <View>
+        <Text>
+        </Text>
+      </View>
     </View>
   );
 };
+
 

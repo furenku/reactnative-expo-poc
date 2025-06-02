@@ -35,7 +35,7 @@ class FaceDetectionService {
     return {
       mode: 'fast',
       detectLandmarks: 'all',
-      runClassifications: 'none',
+      runClassifications: 'all',
       minDetectionConfidence: 0.5,
       tracking: true,
     };
