@@ -9,7 +9,7 @@ import { nativeFaceDetection } from '@/services/faceDetection/mobile';
 
 
 
-const version = '0.0.4'
+const version = '0.0.11'
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -26,6 +26,7 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
   const [faceDetectionCount, setFaceDetectionCount] = useState(0);
   const [lastFaceDetectionTime, setLastFaceDetectionTime] = useState<Date | null>(null);
   const [faceDetectorStatus, setFaceDetectorStatus] = useState<string>('initializing');
+  const [faceInfo, setFaceInfo] = useState<string>('');
   
   const { theme } = useTheme();
 
@@ -58,10 +59,13 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
   // Use more conservative positioning - offset from top
   const OVAL_CENTER_X = screenWidth / 2;
   const OVAL_CENTER_Y = screenHeight / 2 - 100; // Move up a bit from center
-  const OVAL_RADIUS_X = 100;
-  const OVAL_RADIUS_Y = 150;
+  const OVAL_RADIUS_X = 300;
+  const OVAL_RADIUS_Y = 450;
 
   const isInsideOval = (x: number, y: number) => {
+    
+    setFaceInfo( JSON.stringify({x, y, OVAL_CENTER_X, OVAL_CENTER_Y, OVAL_RADIUS_X, OVAL_RADIUS_Y}));
+    
     return (
       ((x - OVAL_CENTER_X) ** 2) / (OVAL_RADIUS_X ** 2) +
       ((y - OVAL_CENTER_Y) ** 2) / (OVAL_RADIUS_Y ** 2) <=
@@ -70,6 +74,7 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
   };
 
   // Updated face detection handler using unified service
+  
   const handleFacesDetected = (result: any) => {
     const now = new Date();
     setFaceDetectionCount(prev => prev + 1);
@@ -79,30 +84,39 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
       console.log('🎉 FIRST FACE DETECTION CALLBACK RECEIVED - Face detection is working!');
       setFaceDetectorStatus('working');
     }
+
     
     // Process faces from expo-face-detector
-    const faces: DetectedFace[] = result.faces ? result.faces.map((face: any) => ({
-      id: face.faceID?.toString(),
-      bounds: {
-        x: face.bounds.origin.x,
-        y: face.bounds.origin.y,
-        width: face.bounds.size.width,
-        height: face.bounds.size.height,
-      },
-      landmarks: face.landmarks ? {
-        leftEye: face.landmarks.leftEyePosition,
-        rightEye: face.landmarks.rightEyePosition,
-        nose: face.landmarks.noseBasePosition,
-        mouth: face.landmarks.bottomMouthPosition,
-      } : undefined,
-      rollAngle: face.rollAngle,
-      yawAngle: face.yawAngle,
-    })) : [];
+    const faces: DetectedFace[] = result.faces ? result.faces.map((face: any) => {
+      // Transform coordinates from camera space to screen space
+      const scaleX = screenWidth / 1080; // Adjust based on your camera resolution
+      const scaleY = screenHeight / 1920; // Adjust based on your camera resolution
+      
+      return {
+        id: face.faceID?.toString(),
+        bounds: {
+          x: face.bounds.origin.x * scaleX,
+          y: face.bounds.origin.y * scaleY,
+          width: face.bounds.size.width * scaleX,
+          height: face.bounds.size.height * scaleY,
+        },
+        landmarks: face.landmarks ? {
+          leftEye: face.landmarks.leftEyePosition,
+          rightEye: face.landmarks.rightEyePosition,
+          nose: face.landmarks.noseBasePosition,
+          mouth: face.landmarks.bottomMouthPosition,
+        } : undefined,
+        rollAngle: face.rollAngle,
+        yawAngle: face.yawAngle,
+      }
+    }) : [];
 
-    console.log('🔍 Real-time face detection:', {
+    console.log('🔍 Transformed face detection:', {
       timestamp: now.toLocaleTimeString(),
       detectionNumber: faceDetectionCount + 1,
       facesFound: faces.length,
+      screenDimensions: { width: screenWidth, height: screenHeight },
+      ovalCenter: { x: OVAL_CENTER_X, y: OVAL_CENTER_Y },
     });
 
     if (faces.length > 0) {
@@ -112,6 +126,8 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
       const insideOval = isInsideOval(centerX, centerY);
       
       console.log('🎯 Face positioning:', {
+        originalBounds: result.faces[0].bounds,
+        transformedBounds: face.bounds,
         faceCenter: { x: centerX, y: centerY },
         ovalCenter: { x: OVAL_CENTER_X, y: OVAL_CENTER_Y },
         isInsideOval: insideOval,
@@ -149,13 +165,13 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
       
       // Take a picture for analysis (lower quality for performance)
       const photo = await cameraRef.current.takePictureAsync({
-        quality: 0.5, // Lower quality for faster processing
+        quality: 0.8, // Lower quality for faster processing
         base64: false,
         skipProcessing: true,
-        // Disable camera effects
         imageType: 'jpg',
         exif: false,
         shutterSound: false,
+        // fastMode: true,
 
       });
 
@@ -330,6 +346,7 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
       <Text style={styles.debugText}>
         v{version} - FD Status: {faceDetectorStatus} | Detections: {faceDetectionCount} | Camera Ready: {isCameraReady ? 'Yes' : 'No'} | Face Inside: {faceInsideOval ? 'Yes' : 'No'}
         {lastFaceDetectionTime && ` | Last: ${lastFaceDetectionTime.toLocaleTimeString()}`}
+        { faceInfo }
       </Text>
       
       <View

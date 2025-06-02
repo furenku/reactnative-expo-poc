@@ -100,9 +100,9 @@ export class MobileFaceDetection {
     }
     
     return {
-      mode: FaceDetector.FaceDetectorMode.fast,
+      mode: FaceDetector.FaceDetectorMode.accurate,
       detectLandmarks: FaceDetector.FaceDetectorLandmarks.all,
-      runClassifications: FaceDetector.FaceDetectorClassifications.none,
+      runClassifications: FaceDetector.FaceDetectorClassifications.all,
       minDetectionInterval: 100,
       tracking: true,
     };
