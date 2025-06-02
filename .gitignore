@@ -38,3 +38,6 @@ yarn-error.*
 
 *storybook.log
 storybook-static
+
+build*
+*.apk

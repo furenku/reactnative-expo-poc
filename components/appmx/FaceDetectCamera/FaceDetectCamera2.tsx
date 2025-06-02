@@ -1,8 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Alert, Dimensions } from 'react-native';
 import { Camera, CameraType, CameraView } from 'expo-camera';
-import * as FaceDetector from 'expo-face-detector';
 import { useTheme } from '@/context/ThemeContext';
+import { faceDetection } from '@/services/faceDetection';
+import { DetectedFace } from '@/types/faceDetection';
+import { isMobile } from '@/utils/platform';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -13,15 +15,32 @@ interface Props {
 export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const cameraRef = useRef<CameraView>(null);
-  const [facing, setFacing] = useState<CameraType>('back');
+  const [facing, setFacing] = useState<CameraType>('front');
   const [faceInsideOval, setFaceInsideOval] = useState(false);
   const [isCameraReady, setIsCameraReady] = useState(false);
   const [faceDetectionCount, setFaceDetectionCount] = useState(0);
   const [lastFaceDetectionTime, setLastFaceDetectionTime] = useState<Date | null>(null);
-  const [faceDetectorStatus, setFaceDetectorStatus] = useState<string>('unknown');
+  const [faceDetectorStatus, setFaceDetectorStatus] = useState<string>('initializing');
   
-  const { theme, styles: baseStyles } = useTheme();
+  const { theme } = useTheme();
 
+  // Initialize face detection service
+  useEffect(() => {
+    const initializeFaceDetection = async () => {
+      try {
+        await faceDetection.initialize();
+        setFaceDetectorStatus('initialized');
+        console.log('✅ Face detection service initialized');
+      } catch (error) {
+        console.error('❌ Failed to initialize face detection:', error);
+        setFaceDetectorStatus('error');
+      }
+    };
+
+    initializeFaceDetection();
+  }, []);
+
+  // ... existing useEffects for permissions and debugging ...
   useEffect(() => {
     (async () => {
       console.log('🚀 Requesting camera permissions...');
@@ -37,64 +56,6 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
   const OVAL_RADIUS_X = 100;
   const OVAL_RADIUS_Y = 150;
 
-  // Add this useEffect to test if face detection is enabled
-  useEffect(() => {
-    console.log('🎬 FaceDetectCamera component mounted');
-    console.log('📱 Screen dimensions:', { width: screenWidth, height: screenHeight });
-    console.log('⭕ Oval config:', {
-      centerX: OVAL_CENTER_X,
-      centerY: OVAL_CENTER_Y,
-      radiusX: OVAL_RADIUS_X,
-      radiusY: OVAL_RADIUS_Y
-    });
-  }, []);
-
-  // Check what's available in FaceDetector
-  useEffect(() => {
-    console.log('🤖 Available FaceDetector methods:', Object.keys(FaceDetector));
-    console.log('🔧 FaceDetector modes:', FaceDetector.FaceDetectorMode);
-    console.log('🏷️ FaceDetector landmarks:', FaceDetector.FaceDetectorLandmarks);
-    console.log('🎯 FaceDetector classifications:', FaceDetector.FaceDetectorClassifications);
-    setFaceDetectorStatus('initialized');
-  }, []);
-
-  // Enhanced logging for face detection state
-  useEffect(() => {
-    console.log('📊 Face detection stats:', {
-      faceInsideOval,
-      detectionCount: faceDetectionCount,
-      lastDetection: lastFaceDetectionTime?.toLocaleTimeString(),
-      detectorStatus: faceDetectorStatus,
-      cameraReady: isCameraReady
-    });
-  }, [faceInsideOval, faceDetectionCount, lastFaceDetectionTime, faceDetectorStatus, isCameraReady]);
-
-  // Add interval to check if face detection is running
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      const timeSinceLastDetection = lastFaceDetectionTime 
-        ? now.getTime() - lastFaceDetectionTime.getTime()
-        : null;
-      
-      console.log('⏰ Face detection health check:', {
-        totalDetections: faceDetectionCount,
-        timeSinceLastDetection: timeSinceLastDetection ? `${timeSinceLastDetection}ms` : 'never',
-        isRunning: timeSinceLastDetection ? timeSinceLastDetection < 5000 : false,
-        detectorStatus: faceDetectorStatus,
-        cameraReady: isCameraReady
-      });
-      
-      if (faceDetectionCount === 0 && isCameraReady) {
-        console.warn('⚠️ Camera is ready but no face detection callbacks received yet');
-      } else if (timeSinceLastDetection && timeSinceLastDetection > 10000) {
-        console.warn('⚠️ Face detection appears to have stopped - no callbacks in 10+ seconds');
-      }
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [faceDetectionCount, lastFaceDetectionTime, faceDetectorStatus, isCameraReady]);
-
   const isInsideOval = (x: number, y: number) => {
     return (
       ((x - OVAL_CENTER_X) ** 2) / (OVAL_RADIUS_X ** 2) +
@@ -103,17 +64,39 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
     );
   };
 
-  const handleFacesDetected = ({ faces }: FaceDetector.FaceDetectionResult) => {
+  // Updated face detection handler using unified service
+  const handleFacesDetected = (result: any) => {
     const now = new Date();
     setFaceDetectionCount(prev => prev + 1);
     setLastFaceDetectionTime(now);
     
-    // First detection means face detection is working
     if (faceDetectionCount === 0) {
       console.log('🎉 FIRST FACE DETECTION CALLBACK RECEIVED - Face detection is working!');
       setFaceDetectorStatus('working');
     }
     
+    // Convert expo-face-detector result to our unified format
+    let faces: DetectedFace[] = [];
+    if (isMobile && result.faces) {
+      faces = result.faces.map((face: any) => ({
+        id: face.faceID?.toString(),
+        bounds: {
+          x: face.bounds.origin.x,
+          y: face.bounds.origin.y,
+          width: face.bounds.size.width,
+          height: face.bounds.size.height,
+        },
+        landmarks: face.landmarks ? {
+          leftEye: face.landmarks.leftEyePosition,
+          rightEye: face.landmarks.rightEyePosition,
+          nose: face.landmarks.noseBasePosition,
+          mouth: face.landmarks.bottomMouthPosition,
+        } : undefined,
+        rollAngle: face.rollAngle,
+        yawAngle: face.yawAngle,
+      }));
+    }
+
     console.log('🔍 Face detection callback triggered:', {
       timestamp: now.toLocaleTimeString(),
       detectionNumber: faceDetectionCount + 1,
@@ -123,17 +106,10 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
 
     if (faces.length > 0) {
       const face = faces[0];
-      console.log('👤 Face data:', {
-        bounds: face.bounds,
-        size: face.bounds.size,
-        origin: face.bounds.origin,
-        faceID: face.faceID || 'unknown',
-        rollAngle: face.rollAngle || 'unknown',
-        yawAngle: face.yawAngle || 'unknown'
-      });
+      console.log('👤 Face data:', face);
 
-      const centerX = face.bounds.origin.x + face.bounds.size.width / 2;
-      const centerY = face.bounds.origin.y + face.bounds.size.height / 2;
+      const centerX = face.bounds.x + face.bounds.width / 2;
+      const centerY = face.bounds.y + face.bounds.height / 2;
       const insideOval = isInsideOval(centerX, centerY);
       
       console.log('🎯 Face positioning:', {
@@ -161,21 +137,7 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
     setFaceDetectorStatus('error');
   };
 
-  // Test face detection with a timeout
-  useEffect(() => {
-    if (isCameraReady) {
-      console.log('⏳ Camera is ready, waiting for face detection callbacks...');
-      
-      const timeout = setTimeout(() => {
-        if (faceDetectionCount === 0) {
-          console.error('❌ No face detection callbacks received after 10 seconds. Face detection may not be working.');
-          setFaceDetectorStatus('not-working');
-        }
-      }, 10000);
-
-      return () => clearTimeout(timeout);
-    }
-  }, [isCameraReady, faceDetectionCount]);
+  // ... existing debugging useEffects ...
 
   const takePicture = async () => {
     if (cameraRef.current) {
@@ -187,6 +149,17 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
         });
 
         console.log('✅ Picture taken:', photo.uri);
+        
+        // Optionally run face detection on the captured photo
+        if (faceDetectorStatus === 'working') {
+          try {
+            const detectedFaces = await faceDetection.detectFromImage(photo.uri);
+            console.log('📸 Faces detected in photo:', detectedFaces.length);
+          } catch (error) {
+            console.warn('⚠️ Could not detect faces in captured photo:', error);
+          }
+        }
+        
         onPictureTaken(photo.uri);
       } catch (error) {
         console.error('❌ Error taking picture:', error);
@@ -196,6 +169,7 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
     }
   };
 
+  // ... existing styles ...
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -295,13 +269,7 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
         onFacesDetected={handleFacesDetected}
         onCameraReady={handleCameraReady}
         onMountError={handleMountError}
-        faceDetectorSettings={{
-          mode: FaceDetector.FaceDetectorMode.fast,
-          detectLandmarks: FaceDetector.FaceDetectorLandmarks.none,
-          runClassifications: FaceDetector.FaceDetectorClassifications.none,
-          minDetectionInterval: 100,
-          tracking: true,
-        }}
+        faceDetectorSettings={isMobile ? faceDetection.getMobileDetectorSettings() : undefined}
       >
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.captureButton} onPress={takePicture}>
@@ -325,3 +293,4 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
     </View>
   );
 };
+
