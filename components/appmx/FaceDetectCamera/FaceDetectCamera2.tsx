@@ -7,6 +7,9 @@ import { DetectedFace } from '@/types/faceDetection';
 import { isMobile } from '@/utils/platform';
 import { nativeFaceDetection } from '@/services/faceDetection/mobile';
 
+import { } from 'expo-face-detector'
+
+
 
 
 const version = '0.0.11'
@@ -171,6 +174,7 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
         imageType: 'jpg',
         exif: false,
         shutterSound: false,
+        
         // fastMode: true,
 
       });
@@ -325,6 +329,7 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
 
   return (
     <View style={styles.container}>
+      
       <CameraView
         style={styles.camera}
         facing={facing}
