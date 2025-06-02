@@ -5,6 +5,11 @@ import { useTheme } from '@/context/ThemeContext';
 import { faceDetection } from '@/services/faceDetection';
 import { DetectedFace } from '@/types/faceDetection';
 import { isMobile } from '@/utils/platform';
+import { nativeFaceDetection } from '@/services/faceDetection/mobile';
+
+
+
+const version = '0.0.4'
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -75,39 +80,33 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
       setFaceDetectorStatus('working');
     }
     
-    // Convert expo-face-detector result to our unified format
-    let faces: DetectedFace[] = [];
-    if (isMobile && result.faces) {
-      faces = result.faces.map((face: any) => ({
-        id: face.faceID?.toString(),
-        bounds: {
-          x: face.bounds.origin.x,
-          y: face.bounds.origin.y,
-          width: face.bounds.size.width,
-          height: face.bounds.size.height,
-        },
-        landmarks: face.landmarks ? {
-          leftEye: face.landmarks.leftEyePosition,
-          rightEye: face.landmarks.rightEyePosition,
-          nose: face.landmarks.noseBasePosition,
-          mouth: face.landmarks.bottomMouthPosition,
-        } : undefined,
-        rollAngle: face.rollAngle,
-        yawAngle: face.yawAngle,
-      }));
-    }
+    // Process faces from expo-face-detector
+    const faces: DetectedFace[] = result.faces ? result.faces.map((face: any) => ({
+      id: face.faceID?.toString(),
+      bounds: {
+        x: face.bounds.origin.x,
+        y: face.bounds.origin.y,
+        width: face.bounds.size.width,
+        height: face.bounds.size.height,
+      },
+      landmarks: face.landmarks ? {
+        leftEye: face.landmarks.leftEyePosition,
+        rightEye: face.landmarks.rightEyePosition,
+        nose: face.landmarks.noseBasePosition,
+        mouth: face.landmarks.bottomMouthPosition,
+      } : undefined,
+      rollAngle: face.rollAngle,
+      yawAngle: face.yawAngle,
+    })) : [];
 
-    console.log('🔍 Face detection callback triggered:', {
+    console.log('🔍 Real-time face detection:', {
       timestamp: now.toLocaleTimeString(),
       detectionNumber: faceDetectionCount + 1,
       facesFound: faces.length,
-      cameraReady: isCameraReady
     });
 
     if (faces.length > 0) {
       const face = faces[0];
-      console.log('👤 Face data:', face);
-
       const centerX = face.bounds.x + face.bounds.width / 2;
       const centerY = face.bounds.y + face.bounds.height / 2;
       const insideOval = isInsideOval(centerX, centerY);
@@ -116,12 +115,10 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
         faceCenter: { x: centerX, y: centerY },
         ovalCenter: { x: OVAL_CENTER_X, y: OVAL_CENTER_Y },
         isInsideOval: insideOval,
-        previousState: faceInsideOval
       });
       
       setFaceInsideOval(insideOval);
     } else {
-      console.log('❌ No faces detected in frame');
       setFaceInsideOval(false);
     }
   };
@@ -152,20 +149,22 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
       
       // Take a picture for analysis (lower quality for performance)
       const photo = await cameraRef.current.takePictureAsync({
-        quality: 0.3,
+        quality: 0.5, // Lower quality for faster processing
         base64: false,
         skipProcessing: true,
+        // Disable camera effects
+        imageType: 'jpg',
+        exif: false,
+        shutterSound: false,
+
       });
 
       // Analyze the image for faces
-      const faceDetectionResult = await FaceDetector.detectFacesAsync(photo.uri, {
-        mode: FaceDetector.FaceDetectorMode.fast,
-        detectLandmarks: FaceDetector.FaceDetectorLandmarks.none,
-        runClassifications: FaceDetector.FaceDetectorClassifications.none,
-      });
+      const faces = await nativeFaceDetection.detectFromImage(photo.uri);
+
 
       // Process the results
-      handleFacesDetected({ faces: faceDetectionResult.faces });
+      handleFacesDetected({ faces });
 
     } catch (error) {
       console.error('Face detection error:', error);
@@ -174,14 +173,12 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
     }
   };
 
-
-
   useEffect(() => {
     if (!isCameraReady) return;
 
     const interval = setInterval(() => {
       analyzeFrame();
-    }, 500); // Check every 500ms
+    }, 1000); // Reduce frequency to every 1000ms to be less intrusive
 
     return () => clearInterval(interval);
   }, [isCameraReady, isProcessing]);
@@ -316,7 +313,10 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
         style={styles.camera}
         facing={facing}
         ref={cameraRef}
-        
+        onCameraReady={handleCameraReady}
+        // Disable camera sound if available
+        enableTorch={false}
+        autofocus={'on'}
       >
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.captureButton} onPress={takePicture}>
@@ -328,7 +328,7 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
       
       {/* Debug info overlay */}
       <Text style={styles.debugText}>
-        v0.0.1 - FD Status: {faceDetectorStatus} | Detections: {faceDetectionCount} | Camera Ready: {isCameraReady ? 'Yes' : 'No'} | Face Inside: {faceInsideOval ? 'Yes' : 'No'}
+        v{version} - FD Status: {faceDetectorStatus} | Detections: {faceDetectionCount} | Camera Ready: {isCameraReady ? 'Yes' : 'No'} | Face Inside: {faceInsideOval ? 'Yes' : 'No'}
         {lastFaceDetectionTime && ` | Last: ${lastFaceDetectionTime.toLocaleTimeString()}`}
       </Text>
       
