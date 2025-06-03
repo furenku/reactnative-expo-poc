@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { useBaseStyles } from '@/styles/useBaseStyles';
 import { Theme } from '@/types/theme';
 import { useTheme } from '@/context/ThemeContext';
 import { Text } from '@/components/ui/Text';
 import { CredentialCard } from '@/components/appmx/TestCameraFlow/CredentialCard/CredentialCard';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Chip } from '../../ui/Chip';
 
 interface CredentialReadyProps {
   photoUri: string;
@@ -50,37 +51,55 @@ export const CredentialReady: React.FC<CredentialReadyProps> = ({
         </View>
 
     <View style={styles.footer}>
-            <View style={styles.actionContainer}>
-                <TouchableOpacity 
-                style={styles.actionButton}
-                onPress={onDownload}
+    <View style={styles.actionContainer}>
+                <Chip 
+                    label="Descargar"                    
+                    size="lg"
+                    onPress={onDownload}
                 >
-                <MaterialCommunityIcons name="download" size={20} color={theme.colors.primary} />
-                <Text style={[ui.text, styles.actionText]}>Descargar</Text>
-                </TouchableOpacity>
+                    <MaterialCommunityIcons name="download" size={16} color={theme.colors.primary} />
+                </Chip>
 
-                <TouchableOpacity 
-                style={styles.actionButton}
-                onPress={onReverse}
+                <Chip 
+                    label="Reverso"                    
+                    size="lg"
+                    onPress={onReverse}
                 >
-                <MaterialCommunityIcons name="rotate-3d-variant" size={20} color={theme.colors.primary} />
-                <Text style={[ui.text, styles.actionText]}>Reverso</Text>
-                </TouchableOpacity>
+                    <MaterialCommunityIcons name="rotate-3d-variant" size={16} color={theme.colors.primary} />
+                </Chip>
 
-                <TouchableOpacity 
-                style={styles.actionButton}
-                onPress={onShare}
+                <Chip 
+                    label="Compartir"                    
+                    size="lg"
+                    onPress={onShare}
                 >
-                <MaterialCommunityIcons name="share-variant" size={20} color={theme.colors.primary} />
-                <Text style={[ui.text, styles.actionText]}>Compartir</Text>
-                </TouchableOpacity>
+                    <MaterialCommunityIcons name="share-variant" size={16} color={theme.colors.primary} />
+                </Chip>
             </View>
+
 
             {/* Bottom Action Cards */}
             <View style={styles.bottomActions}>
                 <TouchableOpacity style={styles.bottomActionCard}>
-                <MaterialCommunityIcons name="star-four-points" size={24} color="#E91E63" />
-                <Text style={[ui.text, ui.semiBold, styles.bottomActionNumber]}>079</Text>
+                
+
+                  <View style={{
+                    width: 20,
+                    height: 20
+                  }}>
+                    <Image
+                      style={{flex: 1}}
+                      source={require('@assets/images/onboarding/cabi-logo.png')}
+                      resizeMode="contain"                
+                    />
+                  </View>
+                  
+                
+          
+                  {/* Title */}
+                  <Text style={[ui.text, ui.semiBold, {color: theme.colors.primary}]}>
+                    079
+                  </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity 
@@ -89,8 +108,8 @@ export const CredentialReady: React.FC<CredentialReadyProps> = ({
                 >
                 <MaterialCommunityIcons name="shield-check" size={24} color={theme.colors.primary} />
                 <View style={styles.bottomActionTextContainer}>
-                    <Text style={[ui.text, ui.semiBold, styles.bottomActionTitle]}>Validar</Text>
-                    <Text style={[ui.text, styles.bottomActionSubtitle]}>credencial</Text>
+                    <Text style={[ui.text, {color: theme.colors.primary}, ui.semiBold, styles.bottomActionTitle]}>Validar</Text>
+                    <Text style={[ui.text, {color: theme.colors.primary}, styles.bottomActionSubtitle]}>credencial</Text>
                 </View>
                 </TouchableOpacity>
             </View>
@@ -107,7 +126,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
   content: {
     alignItems: 'center',
     flexShrink: 1,
-    maxHeight: '60%',
+    maxHeight: '70%',
     overflow: 'hidden',
     
   },
@@ -123,7 +142,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     borderRadius: theme.spacing.md,
-    transform: [{ scale: 1/2 }, { translateY: -300 }],
+    transform: [{ scale: 0.6 }, { translateY: -200 }],
     flexGrow: 2,    
     overflow: 'hidden',
 
@@ -146,7 +165,6 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
-    paddingHorizontal: 40,
     marginVertical: 20,
   },
   actionButton: {
@@ -161,36 +179,42 @@ const createStyles = (theme: Theme) => StyleSheet.create({
   bottomActions: {
     flexDirection: 'row',
     gap: 16,
+    justifyContent: 'space-between',
+    width: '100%',
     paddingHorizontal: 20,
-    marginTop: 20,
+    paddingBottom: 20,
+    
   },
   bottomActionCard: {
     flex: 1,
-    backgroundColor: theme.colors.surface,
+    flexGrow: 1,
+    backgroundColor: '#f9f9f9',
+    borderWidth: 1,
+    borderColor: '#dddddd',
     borderRadius: 16,
     padding: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 8,
     elevation: 2,
-    shadowColor: theme.colors.shadow,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    color: theme.colors.primary,
+    justifyContent: 'center'
   },
   bottomActionNumber: {
     fontSize: 24,
-    color: theme.colors.text,
+    color: theme.colors.primary,
   },
   bottomActionTextContainer: {
     flex: 1,
   },
   bottomActionTitle: {
     fontSize: 16,
-    color: theme.colors.text,
   },
   bottomActionSubtitle: {
     fontSize: 14,
-    color: theme.colors.textSecondary,
   },
 });

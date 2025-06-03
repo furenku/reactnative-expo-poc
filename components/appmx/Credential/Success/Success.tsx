@@ -54,11 +54,9 @@ export const Success: React.FC<SuccessProps> = ({ onComplete }) => {
             height: 100
           }}>
             <Image
-            style={{flex: 1}}
-                source={require('@assets/images/illustrations/illustration-credential-ready.png')}
-                resizeMode="contain"
-                
-                
+              style={{flex: 1}}
+              source={require('@assets/images/illustrations/illustration-credential-ready.png')}
+              resizeMode="contain"                
             />
           </View>
         </Animated.View>
