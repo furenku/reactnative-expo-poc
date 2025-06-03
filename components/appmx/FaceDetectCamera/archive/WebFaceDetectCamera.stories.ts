@@ -1,4 +1,4 @@
-import { WebFaceDetectCamera } from "@/components/appmx/FaceDetectCamera/WebFaceDetectCamera";
+import { WebFaceDetectCamera } from "@/components/appmx/FaceDetectCamera/archive/WebFaceDetectCamera";
 
 
 export default {

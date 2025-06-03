@@ -10,7 +10,7 @@ import { getData } from './utils/storage';
 import { useFontsHook } from './theme/theme';
 import { App as Appmx } from './components/appmx/App';
 import { ThemeProvider } from '@/context/ThemeContext';
-import { FaceDetectCamera } from './components/appmx/FaceDetectCamera/FaceDetectCamera2';
+import { FaceDetectCamera } from './components/appmx/FaceDetectCamera/FaceDetectCamera';
 
 
 const App: React.FC = () => {

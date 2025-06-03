@@ -1,7 +1,7 @@
 import { DetectedFace } from '@/types/faceDetection';
 import { isMobile } from '@/utils/platform';
 
-class FaceDetectionService {
+export class FaceDetectionService {
   private isInitialized = false;
   private webModel: any = null;
 

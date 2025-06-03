@@ -24,3 +24,23 @@ export interface FaceDetectorSettings {
   minDetectionConfidence?: number;
   tracking?: boolean;
 }
+
+export interface FaceDetectionConfig {
+  minDetectionInterval?: number;
+  oval?: {
+    centerX: number;
+    centerY: number;
+    radiusX: number;
+    radiusY: number;
+  };
+}
+
+export interface FaceDetectionHookReturn {
+  faceInsideOval: boolean;
+  faceDetectionCount: number;
+  lastFaceDetectionTime: Date | null;
+  faceDetectorStatus: string;
+  setFaceDetectorStatus: (status: string) => void;
+  faceInfo: string;
+  handleFacesDetected: (result: any) => void;
+}

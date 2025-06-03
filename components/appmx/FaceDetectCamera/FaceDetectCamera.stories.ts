@@ -2,7 +2,7 @@ import { FaceDetectCamera } from "@/components/appmx/FaceDetectCamera/FaceDetect
 
 
 export default {
-  title: 'components/Camera/FaceDetectCamera',
+  title: 'components/Camera/FaceDetectCamera2',
   component: FaceDetectCamera,
   argTypes: {
   }
