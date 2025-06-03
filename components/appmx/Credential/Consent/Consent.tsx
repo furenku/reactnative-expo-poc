@@ -1,92 +1,126 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { useBaseStyles } from '@/styles/useBaseStyles';
 import { Text } from '../../ui/Text';
 import { Button } from '@/components/appmx/ui/Button';
-import { Switch } from 'react-native';
-import { useTheme } from '@/context/ThemeContext';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Theme } from '@/types/theme';
+import { useTheme } from '@/context/ThemeContext';
+import { Checkbox } from '@components/appmx/ui/Checkbox/Checkbox';
 
 interface ConsentProps {
-  onComplete: () => void;
-  curp: string;
+  onAccept: () => void;
+  onCancel: () => void;
 }
 
-export const Consent: React.FC<ConsentProps> = ({ onComplete, curp }) => {
+export const Consent: React.FC<ConsentProps> = ({ onAccept, onCancel }) => {
   const ui = useBaseStyles();
   const { theme } = useTheme();
   const styles = createStyles(theme);
-  const [termsAccepted, setTermsAccepted] = useState(false);
-  const [privacyAccepted, setPrivacyAccepted] = useState(false);
-
-  const canContinue = termsAccepted && privacyAccepted;
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   return (
     <View style={[ui.container, styles.container]}>
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <View style={[ui.card, styles.card]}>
+        {/* Illustration */}
+        <View style={styles.illustrationContainer}>
+          <Image
+            source={require('@assets/images/illustrations/illustration-identity-validation.png')}
+            style={styles.illustration}
+          />
+        </View>
+
+        {/* Title */}
         <Text style={[ui.heading, styles.title]}>
-          Autorización y consentimiento
+          Antes de continuar, necesitamos tu consentimiento
         </Text>
-        
+
+        {/* Description */}
         <Text style={[ui.text, styles.description]}>
-          Para completar la creación de tu credencial digital, necesitamos tu autorización para:
+          Tomaremos una selfie para validar tu identidad. La compararemos con registros oficiales (como RENAPO y servicios de salud), solo para confirmar que eres tú
         </Text>
 
-        <View style={styles.consentSection}>
-          <View style={styles.consentItem}>
-            <View style={styles.consentHeader}>
-              <Text style={[ui.text, ui.semiBold, styles.consentTitle]}>
-                Términos y condiciones
-              </Text>
-              <Switch
-                value={termsAccepted}
-                onValueChange={setTermsAccepted}
-                trackColor={{ false: theme.colors.neutral, true: theme.colors.primary }}
-                thumbColor={termsAccepted ? theme.colors.white : theme.colors.white}
-              />
-            </View>
-            <Text style={[ui.textSmall, styles.consentText]}>
-              Acepto los términos y condiciones para el uso de la credencial digital.
+        {/* Security Section */}
+        <View style={styles.securitySection}>
+          <View style={[ui.row, styles.securityHeader]}>
+            <MaterialCommunityIcons
+              name="shield-check-outline"
+              size={24}
+              color={theme.colors.primary}
+            />
+            <Text style={[ui.bold, styles.securityTitle]}>
+              Protegemos tu identidad
             </Text>
           </View>
 
-          <View style={styles.consentItem}>
-            <View style={styles.consentHeader}>
-              <Text style={[ui.text, ui.semiBold, styles.consentTitle]}>
-                Aviso de privacidad
+          <Text style={[ui.text, styles.consentText]}>
+            Al continuar, autorizas:
+          </Text>
+
+          {/* Consent Items */}
+          <View style={styles.consentItems}>
+            <View style={styles.consentItem}>
+              <Text style={styles.bullet}>•</Text>
+              <Text style={[ui.text, styles.consentItemText]}>
+                Usar tu foto (selfie) y compararla con los datos de RENAPO.
               </Text>
-              <Switch
-                value={privacyAccepted}
-                onValueChange={setPrivacyAccepted}
-                trackColor={{ false: theme.colors.neutral, true: theme.colors.primary }}
-                thumbColor={privacyAccepted ? theme.colors.white : theme.colors.white}
-              />
             </View>
-            <Text style={[ui.textSmall, styles.consentText]}>
-              Autorizo el tratamiento de mis datos personales conforme al aviso de privacidad.
-            </Text>
+
+            <View style={styles.consentItem}>
+              <Text style={styles.bullet}>•</Text>
+              <Text style={[ui.text, styles.consentItemText]}>
+                Consultar otros registros oficiales si RENAPO no tiene tus datos.
+              </Text>
+            </View>
+
+            <View style={styles.consentItem}>
+              <Text style={styles.bullet}>•</Text>
+              <Text style={[ui.text, styles.consentItemText]}>
+                Verificar tu afiliación a servicios de salud.
+              </Text>
+            </View>
+
+            <View style={styles.consentItem}>
+              <Text style={styles.bullet}>•</Text>
+              <Text style={[ui.text, styles.consentItemText]}>
+                Usar tu fotografía para integrarla a tu Credencial de Salud.
+              </Text>
+            </View>
           </View>
+
+          <Text style={[ui.textSecondary, styles.privacyText]}>
+            Tu información se usa únicamente para validar tu identidad de forma segura y generar tu{' '}
+            <Text style={[ui.bold]}>Identificación Digital</Text>.
+          </Text>
         </View>
 
-        <View style={[ui.card, styles.summaryCard]}>
-          <Text style={[ui.text, ui.semiBold, styles.summaryTitle]}>
-            Resumen de datos
-          </Text>
-          <Text style={[ui.textSmall, styles.summaryText]}>
-            CURP: {curp}
-          </Text>
-          <Text style={[ui.textSmall, styles.summaryText]}>
-            Fotografía: Capturada
+        {/* Terms Checkbox */}
+        <View style={[ui.row, styles.checkboxContainer]}>
+          <Checkbox
+            value={acceptedTerms}
+            onValueChange={setAcceptedTerms}
+          />
+          <Text style={[ui.text, styles.checkboxText]}>
+            Acepto los <Text style={styles.linkText}>Términos y condiciones</Text>
           </Text>
         </View>
-      </ScrollView>
 
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Crear credencial"
-          onPress={onComplete}
-          disabled={!canContinue}
-        />
+        {/* Buttons */}
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Aceptar y continuar"
+            onPress={onAccept}
+            disabled={!acceptedTerms}
+            style={styles.acceptButton}
+          />
+          
+          <Button
+            title="Cancelar"
+            onPress={onCancel}
+            // variant="outline"
+            style={styles.cancelButton}
+          />
+        </View>
       </View>
     </View>
   );
@@ -95,56 +129,94 @@ export const Consent: React.FC<ConsentProps> = ({ onComplete, curp }) => {
 const createStyles = (theme: Theme) => StyleSheet.create({
   container: {
     paddingHorizontal: theme.spacing.lg,
+    paddingVertical: theme.spacing.xl,
   },
-  content: {
-    flex: 1,
-    paddingTop: theme.spacing.xl,
+  card: {
+    backgroundColor: theme.colors.white,
+    borderRadius: theme.borderRadius.lg,
+    padding: theme.spacing.xl,
+  },
+  illustrationContainer: {
+    alignItems: 'center',
+    marginBottom: theme.spacing.lg,
+  },
+  illustration: {
+    width: 120,
+    height: 120,
+    resizeMode: 'contain',
   },
   title: {
     textAlign: 'center',
     marginBottom: theme.spacing.lg,
+    lineHeight: 28,
   },
   description: {
     textAlign: 'center',
+    marginBottom: theme.spacing.xl,
     color: theme.colors.textSecondary,
+    lineHeight: 22,
+  },
+  securitySection: {
     marginBottom: theme.spacing.xl,
   },
-  consentSection: {
-    gap: theme.spacing.lg,
-    marginBottom: theme.spacing.xl,
-  },
-  consentItem: {
-    padding: theme.spacing.lg,
-    backgroundColor: theme.colors.background,
-    borderRadius: theme.borderRadius.md,
-    borderWidth: 1,
-    borderColor: theme.colors.neutral,
-  },
-  consentHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  securityHeader: {
     alignItems: 'center',
-    marginBottom: theme.spacing.sm,
+    gap: theme.spacing.sm,
+    marginBottom: theme.spacing.md,
   },
-  consentTitle: {
-    flex: 1,
+  securityTitle: {
+    color: theme.colors.text,
+    fontSize: 18,
   },
   consentText: {
-    color: theme.colors.textSecondary,
-    lineHeight: 18,
+    marginBottom: theme.spacing.md,
+    fontWeight: '500',
   },
-  summaryCard: {
-    backgroundColor: theme.colors.neutralLight,
+  consentItems: {
+    gap: theme.spacing.sm,
     marginBottom: theme.spacing.lg,
+    paddingLeft: theme.spacing.sm,
   },
-  summaryTitle: {
-    marginBottom: theme.spacing.sm,
+  consentItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: theme.spacing.sm,
   },
-  summaryText: {
+  bullet: {
     color: theme.colors.textSecondary,
-    marginBottom: theme.spacing.xs,
+    fontSize: 16,
+    lineHeight: 22,
+    marginTop: 1,
+  },
+  consentItemText: {
+    flex: 1,
+    lineHeight: 22,
+  },
+  privacyText: {
+    fontSize: 14,
+    lineHeight: 20,
+    textAlign: 'center',
+  },
+  checkboxContainer: {
+    alignItems: 'flex-start',
+    gap: theme.spacing.sm,
+    marginBottom: theme.spacing.xl,
+  },
+  checkboxText: {
+    flex: 1,
+    lineHeight: 22,
+  },
+  linkText: {
+    color: theme.colors.primary,
+    textDecorationLine: 'underline',
   },
   buttonContainer: {
-    paddingBottom: theme.spacing.xl,
+    gap: theme.spacing.md,
+  },
+  acceptButton: {
+    marginBottom: 0,
+  },
+  cancelButton: {
+    marginBottom: 0,
   },
 });
