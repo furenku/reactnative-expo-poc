@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Alert, Dimensions } from 'react-native';
+import React, { useRef, useEffect, useState, useLayoutEffect } from 'react';
+import { View, StyleSheet, TouchableOpacity, Text, Alert, Dimensions, UIManager, findNodeHandle, Platform, LayoutChangeEvent } from 'react-native';
 import { Camera, CameraType, CameraView } from 'expo-camera';
 import { useTheme } from '@/context/ThemeContext';
 import { faceDetection } from '@/services/faceDetection';
@@ -19,22 +19,68 @@ interface Props {
   onPictureTaken: (uri: string) => void;
 }
 
+
+
+
+
 export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const cameraRef = useRef<CameraView>(null);
+  const containerRef = useRef<View>(null);
   const [facing, setFacing] = useState<CameraType>('front');
   const [isCameraReady, setIsCameraReady] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const { theme } = useTheme();
 
-  const [containerSize, setContainerSize] = useState({ width: screenWidth, height: screenHeight });
+  
+  
+  const [containerSize, setContainerSize] = useState({ 
+    width: screenWidth,
+    height: screenHeight,
+  });
+  
+  // Native layout (iOS/Android)
+  const handleLayout = (event: LayoutChangeEvent) => {
+    if (Platform.OS !== 'web') {
+      const { width, height } = event.nativeEvent.layout;
+      setContainerSize({ width, height });
+    }
+  };
+
+  // Web layout using ResizeObserver
+  useEffect(() => {
+    if (Platform.OS === 'web' && containerRef.current) {
+      const el = containerRef.current as unknown as HTMLElement;
+
+
+      const observer = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const { width, height } = entry.contentRect;
+          setContainerSize({ width, height });
+        }
+      });
+
+      observer.observe(el);
+
+      return () => {
+        observer.disconnect();
+      };
+    }
+  }, [containerRef.current]);
+
+
+
 
   // Calculate ovals based on container size
   const OVAL_CENTER_X = containerSize.width / 2;
-  const OVAL_CENTER_Y = containerSize.height / 2;
+  const OVAL_CENTER_Y = containerSize.height * 1/3;
   const OVAL_RADIUS_X = containerSize.width * 0.33;
   const OVAL_RADIUS_Y = containerSize.height * 0.22;
 
+  // console.log(
+  //   "oval!!", OVAL_CENTER_X, OVAL_CENTER_Y, OVAL_RADIUS_X, OVAL_RADIUS_Y, containerSize
+  // );
+  
 
   // Use custom face detection hook
   const {
@@ -166,6 +212,9 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
       height: '100%',
       justifyContent: 'center',
       alignItems: 'center',
+      // Add minimum dimensions to ensure layout is triggered
+      minWidth: 100,
+      minHeight: 100,
     },
     camera: {
       flex: 1,
@@ -222,6 +271,11 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
     },
   });
 
+  
+  useEffect(() => {
+    console.log("📏 Container size updated:", containerSize);
+  }, [containerSize]);
+
   if (hasPermission === null) {
     return (
       <View style={styles.container}>
@@ -237,14 +291,13 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
       </View>
     );
   }
-
+  
   return (
+    
     <View
-      style={styles.container}
-      onLayout={e => {
-        const { width, height } = e.nativeEvent.layout;
-        setContainerSize({ width, height });
-      }}
+      style={[styles.container, { backgroundColor: 'rgba(255,0,0,0.1)' }]} // Add debug background
+      ref={containerRef}
+      onLayout={handleLayout}
     >
       
       <CameraView
@@ -254,6 +307,11 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
         onCameraReady={handleCameraReady}
         enableTorch={false}
         autofocus={'on'}
+        onLayout={e => {
+          console.log("📹 Camera onLayout triggered!");
+          const { width, height } = e.nativeEvent.layout;
+          console.log("📏 Camera dimensions:", width, height);
+        }}
       >
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.captureButton} onPress={takePicture}>

@@ -25,7 +25,14 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 export const useFaceDetection = (config: FaceDetectionConfig = {}): FaceDetectionHookReturn => {
   
   const oval = config.oval;
+
+  if( ! oval ) {
+    throw new Error( "no oval" )
+  }
   
+  // console.log("oval", oval);
+  
+
   const [faceInsideOval, setFaceInsideOval] = useState(false);
   const [faceDetectionCount, setFaceDetectionCount] = useState(0);
   const [lastFaceDetectionTime, setLastFaceDetectionTime] = useState<Date | null>(null);
@@ -34,19 +41,6 @@ export const useFaceDetection = (config: FaceDetectionConfig = {}): FaceDetectio
 
   // Helper function to check if point is inside oval
   const isInsideOval = useCallback((x: number, y: number) => {
-    if (!oval) {
-      // Fallback to original logic if no oval config provided
-      const OVAL_CENTER_X = screenWidth / 2;
-      const OVAL_CENTER_Y = screenHeight / 2 - 100;
-      const OVAL_RADIUS_X = 300;
-      const OVAL_RADIUS_Y = 450;
-      
-      return (
-        ((x - OVAL_CENTER_X) ** 2) / (OVAL_RADIUS_X ** 2) +
-        ((y - OVAL_CENTER_Y) ** 2) / (OVAL_RADIUS_Y ** 2) <=
-        1
-      );
-    }
     
     return (
       ((x - oval.centerX) ** 2) / (oval.radiusX ** 2) +
