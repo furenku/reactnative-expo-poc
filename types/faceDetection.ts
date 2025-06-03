@@ -43,4 +43,6 @@ export interface FaceDetectionHookReturn {
   setFaceDetectorStatus: (status: string) => void;
   faceInfo: string;
   handleFacesDetected: (result: any) => void;
+  detectedFaces: DetectedFace[];
 }
+

@@ -118,15 +118,12 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
 
   useEffect(() => {
     (async () => {
-      console.log('🚀 Requesting camera permissions...');
       const { status } = await Camera.requestCameraPermissionsAsync();
-      console.log('📷 Camera permission status:', status);
       setHasPermission(status === 'granted');
     })();
   }, []);
 
   const handleCameraReady = () => {
-    console.log('📸 Camera is ready for face detection');
     setIsCameraReady(true);
     setFaceDetectorStatus('camera-ready');
   };
@@ -178,14 +175,11 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
   const takePicture = async () => {
     if (cameraRef.current) {
       try {
-        console.log('📸 Taking picture...');
         const photo = await cameraRef.current.takePictureAsync({
           quality: 0.8,
           base64: false,
         });
 
-        console.log('✅ Picture taken:', photo.uri);
-        
         // Optionally run face detection on the captured photo
         if (faceDetectorStatus === 'working') {
           try {
@@ -272,10 +266,6 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
   });
 
   
-  useEffect(() => {
-    console.log("📏 Container size updated:", containerSize);
-  }, [containerSize]);
-
   if (hasPermission === null) {
     return (
       <View style={styles.container}>
