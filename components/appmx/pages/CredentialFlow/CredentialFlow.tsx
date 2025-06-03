@@ -8,6 +8,8 @@ import { Consent } from '@/components/appmx/Credential/Consent/Consent';
 import { Processing } from '../../Credential/Processing/Processing';
 import { Success } from '../../Credential/Success/Success';
 import { CredentialCard } from '../../TestCameraFlow/CredentialCard/CredentialCard';
+import { CredentialReady } from '../../Credential/CredentialReady/CredentialReady';
+import CredentialReadyStories from '../../Credential/CredentialReady/CredentialReady.stories';
 
 type FlowStep = 'start' | 'curp' | 'validation' | 'proofOfLife' | 'consent' | 'processing' | 'success' | 'credential';
 
@@ -52,7 +54,16 @@ export const CredentialFlow: React.FC = () => {
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 'start':
-        return <CredentialCreationStart onStart={handleStartFlow} />;
+        return <CredentialReady
+          photoUri=''
+          userName='Rodrigo'
+          onDownload={()=>{}}
+          onReverse={()=>{}}
+          onShare={()=>{}}
+          onValidate={()=>{}}
+
+        />;
+        // return <CredentialCreationStart onStart={handleStartFlow} />;
       case 'curp':
         return (
           <CurpInput 
@@ -72,7 +83,7 @@ export const CredentialFlow: React.FC = () => {
           return <Success onComplete={handleSuccessComplete}/>; 
       case 'credential':
         return <CredentialCard  photoUri="" onDone={handleSuccessComplete}/>;
-      default:
+      default:        
         return <CredentialCreationStart onStart={handleStartFlow} />;
     }
   };

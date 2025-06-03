@@ -19,10 +19,6 @@ export const CredentialCard: React.FC<Props> = ({ photoUri, onDone }) => {
   
 
   const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#f5f5f5',
-    },
     card: {
       width: 320,
       height: 680,
