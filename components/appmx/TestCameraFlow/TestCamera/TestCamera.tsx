@@ -111,11 +111,11 @@ export const TestCamera: React.FC<Props> = ({ onPictureTaken }) => {
         facing={facing} 
         ref={cameraRef}
       >
-        <View style={styles.buttonContainer}>
+        {/* <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.captureButton} onPress={takePicture}>
             <View style={styles.innerButton} />
           </TouchableOpacity>
-        </View>
+        </View> */}
       </CameraView>
     </View>
   );

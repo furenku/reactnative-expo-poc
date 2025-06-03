@@ -14,6 +14,9 @@ import CredentialReadyStories from '../../Credential/CredentialReady/CredentialR
 type FlowStep = 'start' | 'curp' | 'validation' | 'proofOfLife' | 'consent' | 'processing' | 'success' | 'credential';
 
 export const CredentialFlow: React.FC = () => {
+
+  const [userName, setUserName] = useState<string>('');
+
   const [currentStep, setCurrentStep] = useState<FlowStep>('start');
   const [curp, setCurp] = useState<string>('');
 
@@ -23,6 +26,7 @@ export const CredentialFlow: React.FC = () => {
 
   const handleCurpSubmit = (userCurp: string) => {
     setCurp(userCurp);
+    setUserName('Rodrigo');
     setCurrentStep('validation');
   };
 
@@ -55,15 +59,15 @@ export const CredentialFlow: React.FC = () => {
     switch (currentStep) {
       case 'start':
         return <CredentialCreationStart onStart={handleStartFlow} />;
-        return <CredentialReady
-          photoUri=''
-          userName='Rodrigo'
-          onDownload={()=>{}}
-          onReverse={()=>{}}
-          onShare={()=>{}}
-          onValidate={()=>{}}
+        // return <CredentialReady
+        //   photoUri=''
+        //   userName='Rodrigo'
+        //   onDownload={()=>{}}
+        //   onReverse={()=>{}}
+        //   onShare={()=>{}}
+        //   onValidate={()=>{}}
 
-        />;
+        // />;
       case 'curp':
         return (
           <CurpInput 
@@ -89,7 +93,7 @@ export const CredentialFlow: React.FC = () => {
   };
 
   return (
-    <MainLayout>
+    <MainLayout userName={userName}>
       {renderCurrentStep()}
     </MainLayout>
   );

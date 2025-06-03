@@ -6,10 +6,11 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from '@/context/ThemeContext';
 
 interface MainLayoutProps {
+  userName?: string;
   children: React.ReactNode;
 }
 
-export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+export const MainLayout: React.FC<MainLayoutProps> = ({ userName, children }) => {
   const ui = useBaseStyles();
   const theme = useTheme()
 
@@ -130,7 +131,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 />
             </View>
           <Text style={[ui.text, styles.greeting]}>Hola, 
-          <Text style={[ui.text, styles.greeting, ui.bold]}> buenas tardes</Text>
+          <Text style={[ui.text, styles.greeting, ui.bold]}> {userName||"buenas tardes"}</Text>
           </Text>
         </View>
         <TouchableOpacity style={styles.profileButton}>
