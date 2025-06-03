@@ -10,7 +10,6 @@ import { Chip } from '../../ui/Chip';
 
 interface CredentialReadyProps {
   photoUri: string;
-  userName: string;
   onDownload?: () => void;
   onReverse?: () => void;
   onShare?: () => void;
@@ -19,7 +18,6 @@ interface CredentialReadyProps {
 
 export const CredentialReady: React.FC<CredentialReadyProps> = ({
   photoUri,
-  userName,
   onDownload,
   onReverse,
   onShare,

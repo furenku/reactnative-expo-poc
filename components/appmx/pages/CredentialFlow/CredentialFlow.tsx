@@ -54,6 +54,7 @@ export const CredentialFlow: React.FC = () => {
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 'start':
+        return <CredentialCreationStart onStart={handleStartFlow} />;
         return <CredentialReady
           photoUri=''
           userName='Rodrigo'
@@ -63,7 +64,6 @@ export const CredentialFlow: React.FC = () => {
           onValidate={()=>{}}
 
         />;
-        // return <CredentialCreationStart onStart={handleStartFlow} />;
       case 'curp':
         return (
           <CurpInput 
@@ -82,7 +82,7 @@ export const CredentialFlow: React.FC = () => {
       case 'success':
           return <Success onComplete={handleSuccessComplete}/>; 
       case 'credential':
-        return <CredentialCard  photoUri="" onDone={handleSuccessComplete}/>;
+        return <CredentialReady  photoUri=""/>;
       default:        
         return <CredentialCreationStart onStart={handleStartFlow} />;
     }

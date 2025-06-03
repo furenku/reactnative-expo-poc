@@ -20,7 +20,7 @@ export const ProofOfLife: React.FC<ProofOfLifeProps> = ({ onComplete }) => {
 };
 
   return (
-    <View style={[ui.container, styles.container]}>
+    <TouchableOpacity style={[ui.container, styles.container]} onPress={onComplete}>
         
       <View style={[StyleSheet.absoluteFillObject, {
         width: '100%',
@@ -83,12 +83,12 @@ export const ProofOfLife: React.FC<ProofOfLifeProps> = ({ onComplete }) => {
         </Svg>
       </View>
 
-      <TouchableOpacity style={styles.instructionContainer} onPress={onComplete}>
+      <TouchableOpacity style={styles.instructionContainer}>
         <Text style={[ui.text, ui.bold, styles.instructionText]}>
           Ubica tu rostro y{'\n'}toca para continuar
         </Text>
       </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 };
 

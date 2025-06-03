@@ -4,6 +4,7 @@ import { useBaseStyles } from '@/styles/useBaseStyles';
 import { Theme } from '@/types/theme';
 import { useTheme } from '@/context/ThemeContext';
 import { Text } from '@/components/ui/Text';
+import { Button } from '@/components/ui/Button';
 
 interface SuccessProps {
   onComplete?: () => void;
@@ -70,6 +71,14 @@ export const Success: React.FC<SuccessProps> = ({ onComplete }) => {
           Ya puedes comenzar a usarla para identificarte ante instituciones públicas.
         </Text>
       </Animated.View>
+
+      
+      <Animated.View style={[styles.textContainer, { opacity: fadeValue, position: 'absolute', bottom: 16}]}>
+        <Button onPress={onComplete||(() => {})} title="Continuar" />
+      </Animated.View>
+
+      
+
     </View>
   );
 };
