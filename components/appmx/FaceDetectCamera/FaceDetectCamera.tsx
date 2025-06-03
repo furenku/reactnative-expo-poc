@@ -100,6 +100,8 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
     },
   });
 
+  console.log("faceInfo", faceInfo)
+
   // Initialize face detection service
   useEffect(() => {
     const initializeFaceDetection = async () => {
@@ -142,13 +144,13 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
       
       // Take a picture for analysis (lower quality for performance)
       const photo = await cameraRef.current.takePictureAsync({
-          quality: 0.8,
-          base64: false,
+        quality: 0.8,
+        base64: false,
         skipProcessing: true,
         imageType: 'jpg',
         exif: false,
-        shutterSound: false,
-        });
+        shutterSound: false
+      });
 
       // Analyze the image for faces
       const faces = await nativeFaceDetection.detectFromImage(photo.uri);
@@ -302,6 +304,7 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
           const { width, height } = e.nativeEvent.layout;
           console.log("📏 Camera dimensions:", width, height);
         }}
+        flash='off'
       >
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.captureButton} onPress={takePicture}>
@@ -314,7 +317,7 @@ export const FaceDetectCamera: React.FC<Props> = ({ onPictureTaken }) => {
       <Text style={styles.debugText}>
         v{version} - FD Status: {faceDetectorStatus} | Detections: {faceDetectionCount} | Camera Ready: {isCameraReady ? 'Yes' : 'No'} | Face Inside: {faceInsideOval ? 'Yes' : 'No'}
         {lastFaceDetectionTime && ` | Last: ${lastFaceDetectionTime.toLocaleTimeString()}`}
-        {faceInfo}
+        Faces: {JSON.stringify(faceInfo)}
       </Text>
 
       <FaceOval

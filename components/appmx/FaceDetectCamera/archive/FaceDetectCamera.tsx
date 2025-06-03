@@ -36,7 +36,7 @@ export function FaceDetectCamera() {
     );
   };
 
-  const handleFacesDetected = ({ faces }: FaceDetector.FaceDetectionResult) => {
+  const handleFacesDetected = ({ faces }: FaceDetector.DetectionResult) => {
     if (faces.length > 0) {
       const face = faces[0];
       const centerX = face.bounds.origin.x + face.bounds.size.width / 2;
@@ -101,12 +101,6 @@ export function FaceDetectCamera() {
         ref={cameraRef}
         style={styles.camera}
         facing={facing}
-        onFacesDetected={handleFacesDetected}
-        faceDetectorSettings={{
-          mode: FaceDetector.FaceDetectorMode.fast,
-          detectLandmarks: FaceDetector.FaceDetectorLandmarks.none,
-          runClassifications: FaceDetector.FaceDetectorClassifications.none,
-        }}
       />
       <View
         style={[
