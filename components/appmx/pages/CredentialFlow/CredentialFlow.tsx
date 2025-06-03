@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { MainLayout } from '@/components/appmx/MainLayout/MainLayout';
 import { CredentialCreationStart } from '@/components/appmx/Credential/CredentialCreationStart/CredentialCreationStart';
 import { CurpInput } from '@/components/appmx/Credential/CurpInput/CurpInput';
@@ -10,6 +10,7 @@ import { Success } from '../../Credential/Success/Success';
 import { CredentialCard } from '../../TestCameraFlow/CredentialCard/CredentialCard';
 import { CredentialReady } from '../../Credential/CredentialReady/CredentialReady';
 import CredentialReadyStories from '../../Credential/CredentialReady/CredentialReady.stories';
+import { CameraView } from 'expo-camera';
 
 type FlowStep = 'start' | 'curp' | 'validation' | 'proofOfLife' | 'consent' | 'processing' | 'success' | 'credential';
 
@@ -19,6 +20,26 @@ export const CredentialFlow: React.FC = () => {
 
   const [currentStep, setCurrentStep] = useState<FlowStep>('start');
   const [curp, setCurp] = useState<string>('');
+  const [photoUri, setPhotoUri] = useState<string>('');
+  const cameraRef = useRef<CameraView>(null);
+
+  // ... existing handlers ...
+
+  const takePicture = async () => {
+    if (cameraRef.current) {
+      try {
+        const photo = await cameraRef.current.takePictureAsync({
+          quality: 0.8,
+          base64: false,
+        });
+        
+        setPhotoUri(photo.uri);
+        handleProofOfLifeComplete();
+      } catch (error) {
+        console.error('Error taking picture:', error);
+      }
+    }
+  };
 
   const handleStartFlow = () => {
     setCurrentStep('curp');
@@ -59,15 +80,6 @@ export const CredentialFlow: React.FC = () => {
     switch (currentStep) {
       case 'start':
         return <CredentialCreationStart onStart={handleStartFlow} />;
-        // return <CredentialReady
-        //   photoUri=''
-        //   userName='Rodrigo'
-        //   onDownload={()=>{}}
-        //   onReverse={()=>{}}
-        //   onShare={()=>{}}
-        //   onValidate={()=>{}}
-
-        // />;
       case 'curp':
         return (
           <CurpInput 
@@ -78,19 +90,25 @@ export const CredentialFlow: React.FC = () => {
       case 'validation':
         return <IdentityValidation onContinue={handleValidationContinue} />;
       case 'proofOfLife':
-        return <ProofOfLife onComplete={handleProofOfLifeComplete} />;
+        return (
+          <ProofOfLife 
+            cameraRef={cameraRef}
+            onTakePicture={takePicture} 
+          />
+        );
       case 'consent':
         return <Consent onAccept={handleConsentComplete} onCancel={handleBackToCurp}/>;
       case 'processing':
         return <Processing onComplete={handleProcessingComplete}/>;
       case 'success':
-          return <Success onComplete={handleSuccessComplete}/>; 
+        return <Success onComplete={handleSuccessComplete}/>; 
       case 'credential':
-        return <CredentialReady  photoUri=""/>;
+        return <CredentialReady photoUri={photoUri} />;
       default:        
         return <CredentialCreationStart onStart={handleStartFlow} />;
     }
   };
+
 
   return (
     <MainLayout userName={userName}>

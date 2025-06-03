@@ -4,13 +4,12 @@ import { Camera, CameraType, CameraView } from 'expo-camera';
 import { useTheme } from '@/context/ThemeContext';
 
 interface Props {
-  onPictureTaken: (uri: string) => void;
+  cameraRef: React.RefObject<CameraView>;
 }
 
-export const TestCamera: React.FC<Props> = ({ onPictureTaken }) => {
+export const TestCamera: React.FC<Props> = ({ cameraRef }) => {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
-  const cameraRef = useRef<CameraView>(null);
-  const [facing, setFacing] = useState<CameraType>('back');
+  const [facing, setFacing] = useState<CameraType>('front'); // Changed to 'front' for selfies
   
   const { theme, styles: baseStyles } = useTheme();
 
@@ -20,21 +19,6 @@ export const TestCamera: React.FC<Props> = ({ onPictureTaken }) => {
       setHasPermission(status === 'granted');
     })();
   }, []);
-
-  const takePicture = async () => {
-    if (cameraRef.current) {
-      try {
-        const photo = await cameraRef.current.takePictureAsync({
-          quality: 0.8,
-          base64: false,
-        });
-
-        onPictureTaken(photo.uri);
-      } catch (error) {
-        console.error('Error taking picture:', error);
-      }
-    }
-  };
 
   const styles = StyleSheet.create({
     container: {

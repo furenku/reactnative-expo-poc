@@ -4,32 +4,29 @@ import { useBaseStyles } from '@/styles/useBaseStyles';
 import { Text } from '../ui/Text';
 import Svg, { Rect, Ellipse, Mask, Defs } from 'react-native-svg';
 import { TestCamera } from '../TestCameraFlow/TestCamera/TestCamera';
+import { CameraView } from 'expo-camera';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 interface ProofOfLifeProps {
-  onComplete: () => void;
+  cameraRef: React.RefObject<CameraView>;
+  onTakePicture: () => void;
 }
-export const ProofOfLife: React.FC<ProofOfLifeProps> = ({ onComplete }) => {
+
+export const ProofOfLife: React.FC<ProofOfLifeProps> = ({ cameraRef, onTakePicture }) => {
   const ui = useBaseStyles();
 
-  const handlePictureTaken = (uri: string) => {
-            console.log('Picture taken:', uri);
-    // Process the image and then call onComplete
-    onComplete();
-};
-
   return (
-    <TouchableOpacity style={[ui.container, styles.container]} onPress={onComplete}>
-        
+    <TouchableOpacity style={[ui.container, styles.container]} onPress={onTakePicture}>
       <View style={[StyleSheet.absoluteFillObject, {
         width: '100%',
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
       }]}>
-        <TestCamera onPictureTaken={handlePictureTaken} />
+        <TestCamera cameraRef={cameraRef} />
       </View>
+
 
       <View style={[ui.container, {
         backgroundColor: 'transparent'
@@ -82,7 +79,6 @@ export const ProofOfLife: React.FC<ProofOfLifeProps> = ({ onComplete }) => {
             />
         </Svg>
       </View>
-
       <TouchableOpacity style={styles.instructionContainer}>
         <Text style={[ui.text, ui.bold, styles.instructionText]}>
           Ubica tu rostro y{'\n'}toca para continuar
