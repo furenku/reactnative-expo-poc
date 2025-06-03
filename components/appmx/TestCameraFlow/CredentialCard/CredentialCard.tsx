@@ -193,7 +193,7 @@ export const CredentialCard: React.FC<Props> = ({ photoUri, onDone }) => {
       {/* Content */}
       <View style={styles.content}>
         <Text style={styles.beneficiarioLabel}>Beneficiario</Text>
-        <Text style={styles.fullName}>Emanuel Ricardo{'\n'}Iriarte Gaspar</Text>
+        <Text style={styles.fullName}>José Rodrigo{'\n'}Treviño Frenk</Text>
         
         <View style={styles.statusContainer}>
           <View style={styles.statusDot} />
@@ -206,7 +206,7 @@ export const CredentialCard: React.FC<Props> = ({ photoUri, onDone }) => {
 
         <View style={styles.infoSection}>
           <Text style={styles.curpLabel}>CURP</Text>
-          <Text style={styles.curpValue}>IGE790207HDFRSM05</Text>
+          <Text style={styles.curpValue}>TEFR851112488HDFRD06</Text>
 
           <View style={styles.infoRow}>
             <View style={styles.infoColumn}>
@@ -220,7 +220,7 @@ export const CredentialCard: React.FC<Props> = ({ photoUri, onDone }) => {
           </View>
 
           <Text style={styles.infoLabel}>Inscrito desde</Text>
-          <Text style={styles.infoValue}>20/03/2002</Text>
+          <Text style={styles.infoValue}>03/05/2025</Text>
 
           <View style={styles.verificationContainer}>
             <View style={styles.verificationDot} />
