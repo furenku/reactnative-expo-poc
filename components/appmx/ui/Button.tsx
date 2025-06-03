@@ -6,7 +6,7 @@ import { useBaseStyles } from '@/styles/useBaseStyles';
 interface ButtonProps {
   title: string;
   onPress: () => void;
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'outline';
   style?: ViewStyle;
   disabled?: boolean;
 }
@@ -24,22 +24,33 @@ export function Button({ title, onPress, variant = 'primary', disabled = false, 
   }, [disabled, animatedValue]);
 
   // Get the base colors for interpolation
-  const primaryColor = colors.primary; // Adjust to your actual primary color
-  const secondaryColor = colors.secondary; // Adjust to your actual secondary color
-  const disabledColor = colors.neutralLight; // Your disabled color
+  const primaryColor = colors.primary;
+  const secondaryColor = colors.secondary;
+  const disabledColor = colors.neutralLight;
 
-  const baseColor = variant === 'primary' ? primaryColor : secondaryColor;
+  const getBaseColor = () => {
+    if (variant === 'outline') return 'transparent';
+    return variant === 'primary' ? primaryColor : secondaryColor;
+  };
+
   const animatedButtonStyle = {
-    backgroundColor: animatedValue.interpolate({
+    backgroundColor: variant === 'outline' ? 'transparent' : animatedValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [disabledColor, baseColor],
+      outputRange: [disabledColor, getBaseColor()],
+    }),
+    ...(variant === 'outline' && {
+      borderWidth: 1,
+      borderColor: animatedValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [disabledColor, primaryColor],
+      }),
     })
   };
 
   const animatedTextColor = {
     color: animatedValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [colors.neutral, colors.white],
+      outputRange: [colors.neutral, variant === 'outline' ? colors.primary : colors.white],
     }),
   };
 
@@ -48,7 +59,7 @@ export function Button({ title, onPress, variant = 'primary', disabled = false, 
   return (
     <Animated.View style={[baseButtonStyle, animatedButtonStyle, style]}>
       <TouchableOpacity
-        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        style={{ width: '100%', height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}
         onPress={onPress}
         disabled={disabled}
         activeOpacity={0.8}

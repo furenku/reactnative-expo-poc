@@ -14,7 +14,7 @@ export default {
 
 export const Default = {
   args: {
-    photoUri: "https://picsum.photos/200",
+    photoUri: "",
     onDone: () => {},
   },
 };

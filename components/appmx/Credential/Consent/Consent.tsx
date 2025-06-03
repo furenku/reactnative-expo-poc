@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, ScrollView } from 'react-native';
 import { useBaseStyles } from '@/styles/useBaseStyles';
 import { Text } from '../../ui/Text';
 import { Button } from '@/components/appmx/ui/Button';
@@ -21,24 +21,32 @@ export const Consent: React.FC<ConsentProps> = ({ onAccept, onCancel }) => {
 
   return (
     <View style={[ui.container, styles.container]}>
-      <View style={[ui.card, styles.card]}>
+      <ScrollView 
+        style={styles.scrollContent}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Illustration */}
-        <View style={styles.illustrationContainer}>
-          <Image
-            source={require('@assets/images/illustrations/illustration-identity-validation.png')}
-            style={styles.illustration}
-          />
+        
+        <View style={styles.info}>
+          <View style={styles.illustrationContainer}>
+            <Image
+              source={require('@assets/images/illustrations/illustration-identity-validation.png')}
+              style={styles.illustration}
+            />
+          </View>
+
+          {/* Title */}
+          <Text style={[ui.heading, styles.title]}>
+            Antes de continuar, necesitamos tu consentimiento
+          </Text>
+
+          {/* Description */}
+          <Text style={[ui.text, styles.description]}>
+            Tomaremos una selfie para validar tu identidad. La compararemos con registros oficiales (como RENAPO y servicios de salud), solo para confirmar que eres tú
+          </Text>
+          
         </View>
-
-        {/* Title */}
-        <Text style={[ui.heading, styles.title]}>
-          Antes de continuar, necesitamos tu consentimiento
-        </Text>
-
-        {/* Description */}
-        <Text style={[ui.text, styles.description]}>
-          Tomaremos una selfie para validar tu identidad. La compararemos con registros oficiales (como RENAPO y servicios de salud), solo para confirmar que eres tú
-        </Text>
 
         {/* Security Section */}
         <View style={styles.securitySection}>
@@ -87,14 +95,18 @@ export const Consent: React.FC<ConsentProps> = ({ onAccept, onCancel }) => {
               </Text>
             </View>
           </View>
-
-          <Text style={[ui.textSecondary, styles.privacyText]}>
-            Tu información se usa únicamente para validar tu identidad de forma segura y generar tu{' '}
-            <Text style={[ui.bold]}>Identificación Digital</Text>.
-          </Text>
         </View>
 
-        {/* Terms Checkbox */}
+        {/* Add padding to prevent content from being hidden behind footer */}
+        <View style={{ height: 200 }} />
+      </ScrollView>
+
+      <View style={styles.footer}>
+        <Text style={[ui.textSecondary, styles.privacyText]}>
+          Tu información se usa únicamente para validar tu identidad de forma segura y generar tu{' '}
+          <Text style={[ui.bold]}>Identificación Digital</Text>.
+        </Text>
+        
         <View style={[ui.row, styles.checkboxContainer]}>
           <Checkbox
             value={acceptedTerms}
@@ -117,24 +129,43 @@ export const Consent: React.FC<ConsentProps> = ({ onAccept, onCancel }) => {
           <Button
             title="Cancelar"
             onPress={onCancel}
-            // variant="outline"
+            variant="outline"
             style={styles.cancelButton}
           />
         </View>
       </View>
+      
     </View>
   );
 };
 
 const createStyles = (theme: Theme) => StyleSheet.create({
   container: {
-    paddingHorizontal: theme.spacing.lg,
-    paddingVertical: theme.spacing.xl,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    
   },
-  card: {
+  scrollContent: {
+    flexGrow: 1,
+    padding: theme.spacing.sm,
+  },
+
+  footer: {
+    padding: theme.spacing.md,
+    flexDirection: 'column',
+    gap: theme.spacing.md,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: theme.colors.background,
+  },
+  info: {
     backgroundColor: theme.colors.white,
     borderRadius: theme.borderRadius.lg,
     padding: theme.spacing.xl,
+    marginBottom: theme.spacing.lg,
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
   },
   illustrationContainer: {
     alignItems: 'center',
@@ -200,7 +231,6 @@ const createStyles = (theme: Theme) => StyleSheet.create({
   checkboxContainer: {
     alignItems: 'flex-start',
     gap: theme.spacing.sm,
-    marginBottom: theme.spacing.xl,
   },
   checkboxText: {
     flex: 1,

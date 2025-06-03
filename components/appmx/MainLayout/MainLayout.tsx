@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, SafeAreaView, TouchableOpacity, Image, Dimensions, ScrollView } from 'react-native';
 import { useBaseStyles } from '@/styles/useBaseStyles';
 import { Text } from '../ui/Text';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -13,12 +13,16 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const ui = useBaseStyles();
   const theme = useTheme()
 
+  const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+
   const styles = StyleSheet.create({
     container: {
+      width: '100%',
+      height: '100%',
       backgroundColor: '#f5f5f5',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      
+      padding: 0,
+      maxWidth: screenWidth,
+      maxHeight: screenHeight,
     },
     header: {
       flexDirection: 'row',
@@ -52,7 +56,6 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       borderRadius: 16,
     },
     content: {
-      paddingHorizontal: 20,
     },
     footer: {
       flexDirection: 'row',
@@ -111,7 +114,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   });
   
   return (
-    <SafeAreaView style={[ui.container, styles.container]}>
+    <View 
+      style={[ ui.container, { minHeight: '100%', flex: 1 }]} 
+    >
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
@@ -134,9 +139,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       </View>
 
       {/* Main Content */}
-      <View style={[styles.content]}>
+      <ScrollView style={{flex: 1}} contentContainerStyle={[ui.container]}>
         {children}
-      </View>
+      </ScrollView>
 
       {/* Footer */}
       <View style={styles.footer}>
@@ -154,7 +159,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           <Text style={styles.footerTextInactive}>CABI</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
