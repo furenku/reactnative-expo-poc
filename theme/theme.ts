@@ -58,7 +58,7 @@ export const colors: Colors = {
   success: '#28a745',
   warning: '#ffc107',
   credential: '#611232',
-  neutralDarker: '#121212',
+  neutralDarker: '#161a1d',
   neutralDark: '#434343',
   neutral: '#aaaaaa',
   neutralLight: '#dddddd',

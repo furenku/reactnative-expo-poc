@@ -27,6 +27,7 @@ export const CredentialFlow: React.FC = () => {
   const cameraRef = useRef<CameraView>(null);
 
   const showProgress = ['curp','validation','consent'].includes(currentStep);
+  const showHeader = ['start','success','credential'].includes(currentStep);
   const fadeAnim = useRef(new Animated.Value(showProgress ? 1 : 0)).current;
 
   useEffect(() => {
@@ -127,7 +128,7 @@ export const CredentialFlow: React.FC = () => {
 
 
   return (
-    <MainLayout userName={userName}>
+    <MainLayout showHeader={showHeader} userName={userName}>
       {showProgress && (
         <Animated.View style={{ opacity: fadeAnim }}>
           <ProgressSteps stepNumber={progress} />

@@ -39,6 +39,19 @@ export const createBaseStyles = (theme: Theme) => StyleSheet.create({
     lineHeight: theme.typography.lineHeight.medium,
   },
 
+  textDark: {
+    color: theme.colors.neutralDark,
+  },
+  textLight: {
+    color: theme.colors.neutralLight,
+  },
+  textDarker: {
+    color: theme.colors.neutralDark,
+  },
+  textLighter: {
+    color: theme.colors.neutralLight,
+  },
+
   credentialText: {
     fontFamily: theme.typography.fonts.credential.regular,
     color: theme.colors.text,

@@ -1,51 +1,51 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, SafeAreaView, TouchableOpacity, Image, Dimensions, ScrollView } from 'react-native';
 import { useBaseStyles } from '@/styles/useBaseStyles';
 import { Text } from '../ui/Text';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from '@/context/ThemeContext';
+import { AppHeader } from '../AppHeader/AppHeader';
+import { Animated } from 'react-native'
 
 interface MainLayoutProps {
   userName?: string;
   children: React.ReactNode;
+  showHeader?: boolean;
 }
 
-export const MainLayout: React.FC<MainLayoutProps> = ({ userName, children }) => {
+export const MainLayout: React.FC<MainLayoutProps> = ({ userName, showHeader, children }) => {
   const ui = useBaseStyles();
   const theme = useTheme()
 
-  const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+
+
+const fadeAnim = useRef(new Animated.Value(showHeader ? 1 : 0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: showHeader ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [showHeader, fadeAnim]);
+
 
   const styles = StyleSheet.create({
     container: {
       width: '100%',
       height: '100%',
       backgroundColor: '#f5f5f5',
-      padding: 0,
-      maxWidth: screenWidth,
-      maxHeight: screenHeight,
+      padding: 0
     },
     header: {
+      width: '100%',
+      display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
       paddingHorizontal: 20,
       paddingVertical: 16,
       backgroundColor: '#fff',
-    },
-    headerLeft: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 12,
-    },
-    logo: {
-      width: 32,
-      height: 32,
-      borderRadius: 8,
-    },
-    greeting: {
-      fontSize: 18,
-      color: '#1f2937',
     },
     profileButton: {
       padding: 8,
@@ -118,26 +118,11 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ userName, children }) =>
     <View 
       style={[ ui.container, { minHeight: '100%', flex: 1 }]} 
     >
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.headerLeft}>
-            <View style={{
-                width: 32,
-                height: 32
-            }}>
-                <Image
-                    source={require('@assets/images/atdt-logo-small.png')}
-                    style={styles.logo}
-                />
-            </View>
-          <Text style={[ui.text, styles.greeting]}>Hola, 
-          <Text style={[ui.text, styles.greeting, ui.bold]}> {userName||"buenas tardes"}</Text>
-          </Text>
-        </View>
-        <TouchableOpacity style={styles.profileButton}>
-            <MaterialCommunityIcons name="account-outline" size={32} color="#666" />        
-        </TouchableOpacity>
-      </View>
+      {/* AppHeader */}
+      
+        
+      { showHeader && <AppHeader userName={userName}/> }
+
 
       {/* Main Content */}
       <ScrollView style={{flex: 1}} contentContainerStyle={[ui.container]}>
