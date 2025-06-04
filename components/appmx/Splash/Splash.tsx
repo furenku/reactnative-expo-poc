@@ -1,61 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, Image, Animated } from 'react-native';
-import { useBaseStyles } from '@/styles/useBaseStyles';
+import { useTheme } from '@/context/ThemeContext';
 
-interface Props {
+interface SplashProps {
   onAnimationComplete?: () => void;
 }
 
-export const Splash: React.FC<Props> = ({ onAnimationComplete }) => {
-  const ui = useBaseStyles();
-  const fadeAnim = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
-    // Fade in animation
-    Animated.sequence([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 1000,
-        useNativeDriver: true,
-      }),
-      // Hold for a moment
-      Animated.delay(1500),
-      // Fade out animation
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 800,
-        useNativeDriver: true,
-      })
-    ]).start(() => {
-      // Animation complete callback
-      onAnimationComplete?.();
-    });
-  }, [fadeAnim, onAnimationComplete]);
-
-  return (
-    <View style={[ui.containerCentered, styles.splashContainer]}>
-      {/* Background Image */}
-      <Image
-        source={require('@/assets/images/splash-bg.png')} // Update path to your background image
-        style={styles.backgroundImage}
-        resizeMode="cover"
-      />
-      <View style={styles.overlay} />
-      
-
-      {/* Floating Logo with Animation */}
-      <View style={[styles.logoContainer, { opacity: fadeAnim }]}>
-        <Image
-          source={require('@/assets/images/logo.png')} // Update path to your logo
-          style={styles.logo}
-          resizeMode="contain"
-        />
-      </View>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
+const ui = StyleSheet.create({
   splashContainer: {
     flex: 1,
     position: 'relative',
@@ -98,3 +50,54 @@ const styles = StyleSheet.create({
     zIndex: 1
   },
 });
+
+export const Splash: React.FC<SplashProps> = ({ onAnimationComplete }) => {
+  const { styles } = useTheme();
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    // Fade in animation
+    Animated.sequence([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+      // Hold for a moment
+      Animated.delay(1500),
+      // Fade out animation
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 800,
+        useNativeDriver: true,
+      })
+    ]).start(() => {
+      // Animation complete callback
+      if( onAnimationComplete ) {
+        onAnimationComplete?.();
+      }
+    });
+  }, [fadeAnim, onAnimationComplete]);
+
+  return (
+    <View style={[styles.containerCentered, ui.splashContainer]}>
+      {/* Background Image */}
+      <Image
+        source={require('@/assets/images/splash-bg.png')} // Update path to your background image
+        style={ui.backgroundImage}
+        resizeMode="cover"
+      />
+      <View style={ui.overlay} />
+      
+
+      {/* Floating Logo with Animation */}
+      <View style={[ui.logoContainer, { opacity: fadeAnim }]}>
+        <Image
+          source={require('@/assets/images/logo.png')} // Update path to your logo
+          style={ui.logo}
+          resizeMode="contain"
+        />
+      </View>
+    </View>
+  );
+};
