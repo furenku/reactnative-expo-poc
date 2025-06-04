@@ -58,7 +58,11 @@ export const colors: Colors = {
   success: '#28a745',
   warning: '#ffc107',
   credential: '#611232',
+  neutralDarker: '#121212',
   neutralDark: '#434343',
+  neutral: '#aaaaaa',
+  neutralLight: '#dddddd',
+  neutralLighter: '#f9f9f9',
   secondaryGold: '#a57f2c'
 };
 
@@ -105,6 +109,7 @@ export const typography: Typography = {
   fontWeight: {
     normal: '400',
     medium: '500',
+    semiBold: '600',
     bold: '700',
   },
   lineHeight: {

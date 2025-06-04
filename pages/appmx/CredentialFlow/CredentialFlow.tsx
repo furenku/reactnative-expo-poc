@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { Animated } from 'react-native';
 import { MainLayout } from '@/components/appmx/MainLayout/MainLayout';
 import { CredentialCreationStart } from '@/components/appmx/Credential/CredentialCreationStart/CredentialCreationStart';
 import { CurpInput } from '@/components/appmx/Credential/CurpInput/CurpInput';
@@ -11,6 +12,7 @@ import { CredentialCard } from '../../../components/appmx/Credential/CredentialC
 import { CredentialReady } from '../../../components/appmx/Credential/CredentialReady/CredentialReady';
 import CredentialReadyStories from '../../../components/appmx/Credential/CredentialReady/CredentialReady.stories';
 import { CameraView } from 'expo-camera';
+import { ProgressSteps } from './ProgressSteps';
 
 type FlowStep = 'start' | 'curp' | 'validation' | 'proofOfLife' | 'consent' | 'processing' | 'success' | 'credential';
 
@@ -19,10 +21,21 @@ export const CredentialFlow: React.FC = () => {
   const [userName, setUserName] = useState<string>('');
 
   const [currentStep, setCurrentStep] = useState<FlowStep>('start');
+  const [progress, setProgress] = useState<number>(0);
   const [curp, setCurp] = useState<string>('');
   const [photoUri, setPhotoUri] = useState<string>('');
   const cameraRef = useRef<CameraView>(null);
 
+  const showProgress = ['curp','validation','consent'].includes(currentStep);
+  const fadeAnim = useRef(new Animated.Value(showProgress ? 1 : 0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: showProgress ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [showProgress, fadeAnim]);
 
   const takePicture = async () => {
     if (cameraRef.current) {
@@ -41,16 +54,19 @@ export const CredentialFlow: React.FC = () => {
   };
 
   const handleStartFlow = () => {
+    setProgress(1)
     setCurrentStep('curp');
   };
 
   const handleCurpSubmit = (userCurp: string) => {
+    setProgress(2)
     setCurp(userCurp);
     setUserName('Rodrigo');
     setCurrentStep('validation');
   };
 
   const handleBackToCurp = () => {
+    setProgress(1)    
     setCurrentStep('curp');
   };
 
@@ -59,6 +75,7 @@ export const CredentialFlow: React.FC = () => {
   };
 
   const handleProofOfLifeComplete = () => {
+    setProgress(3)
     setCurrentStep('consent');
   };
 
@@ -77,9 +94,9 @@ export const CredentialFlow: React.FC = () => {
 
   const renderCurrentStep = () => {
     switch (currentStep) {
-      case 'start':
+      case 'start':        
         return <CredentialCreationStart onStart={handleStartFlow} />;
-      case 'curp':
+      case 'curp':        
         return (
           <CurpInput 
             onContinue={handleCurpSubmit}
@@ -95,7 +112,7 @@ export const CredentialFlow: React.FC = () => {
             onTakePicture={takePicture} 
           />
         );
-      case 'consent':
+      case 'consent':        
         return <Consent onAccept={handleConsentComplete} onCancel={handleBackToCurp}/>;
       case 'processing':
         return <Processing onComplete={handleProcessingComplete}/>;
@@ -111,6 +128,11 @@ export const CredentialFlow: React.FC = () => {
 
   return (
     <MainLayout userName={userName}>
+      {showProgress && (
+        <Animated.View style={{ opacity: fadeAnim }}>
+          <ProgressSteps stepNumber={progress} />
+        </Animated.View>
+      )}
       {renderCurrentStep()}
     </MainLayout>
   );

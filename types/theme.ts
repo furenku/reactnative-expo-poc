@@ -20,8 +20,6 @@ export interface Colors {
   neutralLight: string;
   neutralLighter: string;
   credential: string;
-  captureButton: string;
-  captureButtonInner: string;
 }
 
 export interface Spacing {
@@ -66,6 +64,7 @@ export interface Typography {
   fontWeight: {
     normal: string;
     medium: string;
+    semiBold: string;
     bold: string;
   };
   lineHeight: {
