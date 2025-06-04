@@ -7,7 +7,13 @@ import { Onboarding3 } from './pages/Onboarding3';
 import { OnboardingFooter } from './OnboardingFooter';
 
 
-export const Onboarding: React.FC = () => {
+interface OnDoneProps {
+  onDone: () => void;
+}
+
+export const Onboarding: React.FC<OnDoneProps> = ({
+  onDone
+}) => {
   const [currentPage, setCurrentPage] = useState(0);
   const { styles: baseStyles } = useTheme();
   const totalPages = 3;
@@ -17,6 +23,7 @@ export const Onboarding: React.FC = () => {
       setCurrentPage(currentPage + 1);
     } else {
       setCurrentPage(totalPages);
+      onDone();
     }
   };
 

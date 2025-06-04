@@ -4,9 +4,11 @@ import { Splash } from './Splash/Splash';
 import { Test } from '../Test/Test';
 import { TestCameraFlow } from './TestCameraFlow/TestCameraFlow';
 import { Onboarding } from './Onboarding/Onboarding';
+import { CredentialFlow } from '@/pages/appmx/CredentialFlow/CredentialFlow';
 
 export const App = () => {
   const [showSplash, setShowSplash] = useState(true);
+  const [onboardingDone, setOnboardingDone] = useState(false);
   const fadeAnim = new Animated.Value(0);
 
   useEffect(() => {
@@ -37,8 +39,10 @@ export const App = () => {
         <Animated.View style={{ opacity: fadeAnim, position: 'absolute', width: '100%', height: '100%', zIndex: 1 }}>
           <Splash />
         </Animated.View>
-      ): (
-        <Onboarding/>
+      ): onboardingDone ? (
+        <CredentialFlow/>
+      ) : (
+        <Onboarding onDone={() => setOnboardingDone(true)} />
       )}
     </>
   );
