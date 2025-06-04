@@ -16,7 +16,8 @@
       "supportsTablet": true,
       "runtimeVersion": {
         "policy": "appVersion"
-      }
+      },
+      "bundleIdentifier": "com.anonymous.RNPoC"
     },
     "android": {
       "adaptiveIcon": {
@@ -25,7 +26,11 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.anonymous.RNPoC",
-      "runtimeVersion": "1.0.0"
+      "runtimeVersion": "1.0.0",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
