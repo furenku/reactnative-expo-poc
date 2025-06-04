@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Animated } from 'react-native';
 import { Splash } from './Splash/Splash';
-import { Test } from '../Test/Test';
-import { TestCameraFlow } from './TestCameraFlow/TestCameraFlow';
-import { Onboarding } from './Onboarding/Onboarding';
+import { Onboarding } from '@pages/Onboarding/Onboarding';
 import { CredentialFlow } from '@/pages/appmx/CredentialFlow/CredentialFlow';
 
 export const App = () => {
