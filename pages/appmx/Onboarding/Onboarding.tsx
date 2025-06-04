@@ -47,6 +47,8 @@ export const Onboarding: React.FC = () => {
   
   return (
     <View style={[baseStyles.container, styles.container]}>
+
+      
       <View style={styles.pageContainer}>
         {renderCurrentPage()}
       </View>

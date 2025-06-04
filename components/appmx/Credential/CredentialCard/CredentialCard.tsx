@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, ScrollView, TouchableOpacity, ImageBackground } from 'react-native';
 
 import { Text } from "./CredentialText"
 import { useTheme } from '@/context/ThemeContext';
@@ -11,14 +11,14 @@ interface Props {
 
 export const CredentialCard: React.FC<Props> = ({ photoUri, onDone }) => {
 
-  const { theme } = useTheme();
+  const { theme, styles } = useTheme();
 
 
   
   
   
 
-  const styles = StyleSheet.create({
+  const ui = StyleSheet.create({
     card: {
       width: 320,
       height: 680,
@@ -181,62 +181,77 @@ export const CredentialCard: React.FC<Props> = ({ photoUri, onDone }) => {
   });
 
   return (
-    <View style={styles.card}>
+    <View style={ui.card}>
+
+      {/* <ImageBackground
+        source={require('@/assets/images/texture.jpg')} 
+        resizeMode="contain"
+        style={[ styles.container , {
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          flex: 1
+          
+        }]}
+      /> */}
+
       {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.iconPlaceholder} />            
+      <View style={ui.header}>
+        <View style={ui.iconPlaceholder} />            
         
-        <View style={styles.iconPlaceholder} />            
+        <View style={ui.iconPlaceholder} />            
       
       </View>
 
       {/* Content */}
-      <View style={styles.content}>
-        <Text style={styles.beneficiarioLabel}>Beneficiario</Text>
-        <Text style={styles.fullName}>José Rodrigo{'\n'}Treviño Frenk</Text>
+      <View style={ui.content}>
+        <Text style={ui.beneficiarioLabel}>Beneficiario</Text>
+        <Text style={ui.fullName}>José Rodrigo{'\n'}Treviño Frenk</Text>
         
-        <View style={styles.statusContainer}>
-          <View style={styles.statusDot} />
-          <Text style={styles.statusText}>Con derecho a servicios médicos</Text>
+        <View style={ui.statusContainer}>
+          <View style={ui.statusDot} />
+          <Text style={ui.statusText}>Con derecho a servicios médicos</Text>
         </View>
 
-        <View style={styles.photoContainer}>
-          <Image source={{ uri: photoUri }} style={styles.photo} />
+        <View style={ui.photoContainer}>
+          <Image source={{ uri: photoUri }} style={ui.photo} />
         </View>
 
-        <View style={styles.infoSection}>
-          <Text style={styles.curpLabel}>CURP</Text>
-          <Text style={styles.curpValue}>TEFR851112488HDFRD06</Text>
+        <View style={ui.infoSection}>
+          <Text style={ui.curpLabel}>CURP</Text>
+          <Text style={ui.curpValue}>TEFR851112488HDFRD06</Text>
 
-          <View style={styles.infoRow}>
-            <View style={styles.infoColumn}>
-              <Text style={styles.infoLabel}>Unidad Médica</Text>
-              <Text style={styles.infoValue}>38</Text>
+          <View style={ui.infoRow}>
+            <View style={ui.infoColumn}>
+              <Text style={ui.infoLabel}>Unidad Médica</Text>
+              <Text style={ui.infoValue}>38</Text>
             </View>
-            <View style={styles.infoColumn}>
-              <Text style={styles.infoLabel}>Núm de afiliación</Text>
-              <Text style={styles.infoValue}>38023598111</Text>
+            <View style={ui.infoColumn}>
+              <Text style={ui.infoLabel}>Núm de afiliación</Text>
+              <Text style={ui.infoValue}>38023598111</Text>
             </View>
           </View>
 
-          <Text style={styles.infoLabel}>Inscrito desde</Text>
-          <Text style={styles.infoValue}>03/05/2025</Text>
+          <Text style={ui.infoLabel}>Inscrito desde</Text>
+          <Text style={ui.infoValue}>03/05/2025</Text>
 
-          <View style={styles.verificationContainer}>
-            <View style={styles.verificationDot} />
-            <Text style={styles.verificationText}>Información verificada</Text>
+          <View style={ui.verificationContainer}>
+            <View style={ui.verificationDot} />
+            <Text style={ui.verificationText}>Información verificada</Text>
           </View>
         </View>
       </View>
 
       {/* Footer with placeholder icons */}
-      <View style={styles.footer}>
-        <View style={styles.iconPlaceholder} />
-        <View style={styles.iconPlaceholder} />
-        <View style={styles.iconPlaceholder} />
-        <View style={styles.iconPlaceholder} />
-        <View style={styles.iconPlaceholder} />
-        <View style={styles.iconPlaceholder} />
+      <View style={ui.footer}>
+        <View style={ui.iconPlaceholder} />
+        <View style={ui.iconPlaceholder} />
+        <View style={ui.iconPlaceholder} />
+        <View style={ui.iconPlaceholder} />
+        <View style={ui.iconPlaceholder} />
+        <View style={ui.iconPlaceholder} />
       </View>
     </View>
             

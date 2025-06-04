@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { CredentialCard } from '../CredentialCard/CredentialCard';
+import { CredentialCard } from '../../Credential/CredentialCard/CredentialCard';
 
 interface Props {
   photoUri: string;

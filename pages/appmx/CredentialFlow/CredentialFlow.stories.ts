@@ -1,4 +1,4 @@
-import { CredentialFlow } from "@/components/appmx/pages/CredentialFlow/CredentialFlow";
+import { CredentialFlow } from "@/pages/appmx/CredentialFlow/CredentialFlow";
 
 export default {
   title: 'pages/CredentialFlow',

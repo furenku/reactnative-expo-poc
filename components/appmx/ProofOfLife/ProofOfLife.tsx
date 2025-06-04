@@ -1,23 +1,43 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions, Image, TouchableOpacity } from 'react-native';
-import { useBaseStyles } from '@/styles/useBaseStyles';
+import { StyleSheet, View, Dimensions, TouchableOpacity } from 'react-native';
 import { Text } from '../ui/Text';
 import Svg, { Rect, Ellipse, Mask, Defs } from 'react-native-svg';
 import { TestCamera } from '../TestCameraFlow/TestCamera/TestCamera';
 import { CameraView } from 'expo-camera';
+import { useTheme } from '@/context/ThemeContext';
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 interface ProofOfLifeProps {
-  cameraRef: React.RefObject<CameraView>;
+  cameraRef: React.RefObject<CameraView|null>;
   onTakePicture: () => void;
 }
 
 export const ProofOfLife: React.FC<ProofOfLifeProps> = ({ cameraRef, onTakePicture }) => {
-  const ui = useBaseStyles();
+  const { theme, styles } = useTheme()
+
+  const ui = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    instructionContainer: {
+      position: 'absolute',
+      top: theme.spacing.xxl,
+      alignSelf: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      paddingHorizontal: 20,
+      paddingVertical: 12,
+      borderRadius: 8,
+      zIndex: 2,
+    },
+    instructionText: {
+      color: 'white',
+      textAlign: 'center',
+      fontSize: 16,
+    },
+  });
 
   return (
-    <TouchableOpacity style={[ui.container, styles.container]} onPress={onTakePicture}>
+    <TouchableOpacity style={[styles.container, ui.container]} onPress={onTakePicture}>
       <View style={[StyleSheet.absoluteFillObject, {
         width: '100%',
         height: '100%',
@@ -28,7 +48,7 @@ export const ProofOfLife: React.FC<ProofOfLifeProps> = ({ cameraRef, onTakePictu
       </View>
 
 
-      <View style={[ui.container, {
+      <View style={[styles.container, {
         backgroundColor: 'transparent'
       } ]}>
         {/* SVG overlay with oval cutout */}
@@ -79,8 +99,8 @@ export const ProofOfLife: React.FC<ProofOfLifeProps> = ({ cameraRef, onTakePictu
             />
         </Svg>
       </View>
-      <TouchableOpacity style={styles.instructionContainer}>
-        <Text style={[ui.text, ui.bold, styles.instructionText]}>
+      <TouchableOpacity style={ui.instructionContainer}>
+        <Text style={[styles.text, styles.bold, ui.instructionText]}>
           Ubica tu rostro y{'\n'}toca para continuar
         </Text>
       </TouchableOpacity>
@@ -88,23 +108,3 @@ export const ProofOfLife: React.FC<ProofOfLifeProps> = ({ cameraRef, onTakePictu
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  instructionContainer: {
-    position: 'absolute',
-    top: 80,
-    alignSelf: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 8,
-    zIndex: 2,
-  },
-  instructionText: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 16,
-  },
-});

@@ -3,6 +3,7 @@ import { Animated } from 'react-native';
 import { Splash } from './Splash/Splash';
 import { Test } from '../Test/Test';
 import { TestCameraFlow } from './TestCameraFlow/TestCameraFlow';
+import { Onboarding } from './Onboarding/Onboarding';
 
 export const App = () => {
   const [showSplash, setShowSplash] = useState(true);
@@ -37,7 +38,7 @@ export const App = () => {
           <Splash />
         </Animated.View>
       ): (
-        <TestCameraFlow/>
+        <Onboarding/>
       )}
     </>
   );

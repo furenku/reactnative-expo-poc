@@ -8,7 +8,7 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <ThemeProvider>
-        <View style={{ width: 375, height: 812, backgroundColor: '#000',  display: 'flex', justifyContent: 'center', alignItems: 'center', borderWidth: 8, borderColor: '#eee'  }}>
+        <View style={{ width: 375, height: 812, backgroundColor: '#f9f9f9',  display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Story />
         </View>
       </ThemeProvider>

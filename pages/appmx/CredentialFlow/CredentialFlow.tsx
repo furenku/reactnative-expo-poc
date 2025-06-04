@@ -5,11 +5,11 @@ import { CurpInput } from '@/components/appmx/Credential/CurpInput/CurpInput';
 import { IdentityValidation } from '@/components/appmx/Credential/IdentityValidation/IdentityValidation';
 import { ProofOfLife } from '@/components/appmx/ProofOfLife/ProofOfLife';
 import { Consent } from '@/components/appmx/Credential/Consent/Consent';
-import { Processing } from '../../Credential/Processing/Processing';
-import { Success } from '../../Credential/Success/Success';
-import { CredentialCard } from '../../TestCameraFlow/CredentialCard/CredentialCard';
-import { CredentialReady } from '../../Credential/CredentialReady/CredentialReady';
-import CredentialReadyStories from '../../Credential/CredentialReady/CredentialReady.stories';
+import { Processing } from '../../../components/appmx/Credential/Processing/Processing';
+import { Success } from '../../../components/appmx/Credential/Success/Success';
+import { CredentialCard } from '../../../components/appmx/Credential/CredentialCard/CredentialCard';
+import { CredentialReady } from '../../../components/appmx/Credential/CredentialReady/CredentialReady';
+import CredentialReadyStories from '../../../components/appmx/Credential/CredentialReady/CredentialReady.stories';
 import { CameraView } from 'expo-camera';
 
 type FlowStep = 'start' | 'curp' | 'validation' | 'proofOfLife' | 'consent' | 'processing' | 'success' | 'credential';
@@ -23,7 +23,6 @@ export const CredentialFlow: React.FC = () => {
   const [photoUri, setPhotoUri] = useState<string>('');
   const cameraRef = useRef<CameraView>(null);
 
-  // ... existing handlers ...
 
   const takePicture = async () => {
     if (cameraRef.current) {

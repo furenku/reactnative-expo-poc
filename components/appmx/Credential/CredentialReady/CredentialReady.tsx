@@ -4,7 +4,7 @@ import { useBaseStyles } from '@/styles/useBaseStyles';
 import { Theme } from '@/types/theme';
 import { useTheme } from '@/context/ThemeContext';
 import { Text } from '@/components/ui/Text';
-import { CredentialCard } from '@/components/appmx/TestCameraFlow/CredentialCard/CredentialCard';
+import { CredentialCard } from '@/components/appmx/Credential/CredentialCard/CredentialCard';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Chip } from '../../ui/Chip';
 
@@ -104,7 +104,7 @@ export const CredentialReady: React.FC<CredentialReadyProps> = ({
                 style={styles.bottomActionCard}
                 onPress={onValidate}
                 >
-                <MaterialCommunityIcons name="shield-check" size={24} color={theme.colors.primary} />
+                <MaterialCommunityIcons name="qrcode-scan" size={24} color={theme.colors.primary} />
                 <View style={styles.bottomActionTextContainer}>
                     <Text style={[ui.text, {color: theme.colors.primary}, ui.semiBold, styles.bottomActionTitle]}>Validar</Text>
                     <Text style={[ui.text, {color: theme.colors.primary}, styles.bottomActionSubtitle]}>credencial</Text>
@@ -154,7 +154,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: theme.colors.border,
+    backgroundColor: theme.colors.primary,
   },
   activeIndicator: {
     backgroundColor: theme.colors.primary,

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { MyCamera } from './TestCamera/TestCamera';
 import { PhotoPreview } from './PhotoPreview/PhotoPreview';
-import { CredentialCard } from './CredentialCard/CredentialCard';
+import { CredentialCard } from '../Credential/CredentialCard/CredentialCard';
 
 type FlowStep = 'camera' | 'preview' | 'credential';
 

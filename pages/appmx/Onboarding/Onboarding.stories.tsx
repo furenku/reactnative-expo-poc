@@ -1,7 +1,7 @@
-import { Onboarding } from "@/components/appmx/Onboarding/Onboarding";
+import { Onboarding } from "@/pages/appmx/Onboarding/Onboarding";
 
 export default {
-  title: 'components/Onboarding',
+  title: 'pages/Onboarding',
   component: Onboarding,
   argTypes: {
   }
