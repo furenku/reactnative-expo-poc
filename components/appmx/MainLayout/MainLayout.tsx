@@ -11,9 +11,10 @@ interface MainLayoutProps {
   userName?: string;
   children: React.ReactNode;
   showHeader?: boolean;
+  avatar?: string;
 }
 
-export const MainLayout: React.FC<MainLayoutProps> = ({ userName, showHeader, children }) => {
+export const MainLayout: React.FC<MainLayoutProps> = ({ userName, showHeader, children, avatar }) => {
   const ui = useBaseStyles();
   const theme = useTheme()
 
@@ -121,7 +122,7 @@ const fadeAnim = useRef(new Animated.Value(showHeader ? 1 : 0)).current;
       {/* AppHeader */}
       
         
-      { showHeader && <AppHeader userName={userName}/> }
+      { showHeader && <AppHeader userName={userName} avatar={avatar}/> }
 
 
       {/* Main Content */}
@@ -148,4 +149,3 @@ const fadeAnim = useRef(new Animated.Value(showHeader ? 1 : 0)).current;
     </View>
   );
 };
-

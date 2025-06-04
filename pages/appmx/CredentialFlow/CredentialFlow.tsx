@@ -128,7 +128,7 @@ export const CredentialFlow: React.FC = () => {
 
 
   return (
-    <MainLayout showHeader={showHeader} userName={userName}>
+    <MainLayout showHeader={showHeader} userName={userName} avatar={photoUri}>
       {showProgress && (
         <Animated.View style={{ opacity: fadeAnim }}>
           <ProgressSteps stepNumber={progress} />
