@@ -19,6 +19,7 @@ export const AppHeader = ({ userName, avatar }: { userName?: string, avatar?: st
       flexDirection: 'row',
       alignItems: 'center',
       gap: theme.spacing.md,
+      padding: theme.spacing.sm,
     },
     logo: {
       width: 32,

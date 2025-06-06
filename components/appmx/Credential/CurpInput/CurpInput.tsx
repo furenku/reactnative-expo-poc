@@ -7,9 +7,8 @@ import { Button } from '@/components/appmx/ui/Button';
 import { Theme } from '@/types/theme';
 
 export const CurpInput: React.FC<{ onContinue: (curp: string) => void; onBack: () => void }> = ({ onContinue, onBack }) => {
-  const { theme } = useTheme();
-  const ui = useBaseStyles();
-  const styles = createStyles(theme);
+  const { theme, styles } = useTheme();
+  const ui = createStyles(theme);
   const [curp, setCurp] = useState('');
 
   const handleContinue = () => {
@@ -21,33 +20,33 @@ export const CurpInput: React.FC<{ onContinue: (curp: string) => void; onBack: (
   const isValidCurp = curp.trim().length >= 18;
 
   return (
-    <View style={[ui.container, styles.container]}>
-      <View style={styles.content}>
+    <View style={[styles.container, ui.container]}>
+      <View style={ui.content}>
         {/* Logo */}
-        <View style={styles.logoContainer}>
+        <View style={ui.logoContainer}>
           <Image
             source={require('@assets/images/atdt-logo.png')}
-            style={styles.logo}
+            style={ui.logo}
           />
         </View>
 
         {/* Title */}
-        <Text style={[ui.heading, styles.title]}>
+        <Text style={[styles.heading, ui.title]}>
           Ingresa tu CURP para iniciar tu trámite
         </Text>
         
         {/* Description */}
-        <Text style={[ui.text, styles.description]}>
+        <Text style={[styles.text, ui.description]}>
           La usaremos para ubicarte en los registros y empezar a crear tu credencial digital.
         </Text>
 
         {/* Input Section */}
-        <View style={styles.inputSection}>
-          <Text style={[ui.text, ui.semiBold, styles.inputLabel]}>
+        <View style={ui.inputSection}>
+          <Text style={[styles.text, styles.semiBold, ui.inputLabel]}>
             CURP
           </Text>
           <TextInput
-            style={[ui.textInput, styles.input]}
+            style={[styles.textInput, ui.input]}
             value={curp}
             onChangeText={setCurp}
             placeholder="ABCD000000ABCDEF00"
@@ -58,15 +57,15 @@ export const CurpInput: React.FC<{ onContinue: (curp: string) => void; onBack: (
         </View>
 
         {/* Help Link */}
-        <TouchableOpacity style={styles.helpLink}>
-          <Text style={[ui.text, ui.semiBold, { color: theme.colors.primary }]}>
+        <TouchableOpacity style={ui.helpLink}>
+          <Text style={[styles.text, styles.semiBold, { color: theme.colors.primary }]}>
             ¿No conoces tu CURP?
           </Text>
         </TouchableOpacity>
       </View>
 
       {/* Continue Button */}
-      <View style={styles.buttonContainer}>
+      <View style={ui.buttonContainer}>
         <Button 
           title="Continuar"
           onPress={handleContinue}
