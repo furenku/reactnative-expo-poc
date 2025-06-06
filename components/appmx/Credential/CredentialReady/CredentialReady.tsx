@@ -74,43 +74,7 @@ export const CredentialReady: React.FC<CredentialReadyProps> = ({
                     <MaterialCommunityIcons name="share-variant" size={16} color={theme.colors.primary} />
                 </Chip>
             </View>
-
-
-            {/* Bottom Action Cards */}
-            <View style={styles.bottomActions}>
-                <TouchableOpacity style={styles.bottomActionCard}>
-                
-
-                  <View style={{
-                    width: 20,
-                    height: 20
-                  }}>
-                    <Image
-                      style={{flex: 1}}
-                      source={require('@assets/images/onboarding/cabi-logo.png')}
-                      resizeMode="contain"                
-                    />
-                  </View>
-                  
-                
-          
-                  {/* Title */}
-                  <Text style={[ui.text, ui.semiBold, {color: theme.colors.primary}]}>
-                    079
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity 
-                style={styles.bottomActionCard}
-                onPress={onValidate}
-                >
-                <MaterialCommunityIcons name="qrcode-scan" size={24} color={theme.colors.primary} />
-                <View style={styles.bottomActionTextContainer}>
-                    <Text style={[ui.text, {color: theme.colors.primary}, ui.semiBold, styles.bottomActionTitle]}>Validar</Text>
-                    <Text style={[ui.text, {color: theme.colors.primary}, styles.bottomActionSubtitle]}>credencial</Text>
-                </View>
-                </TouchableOpacity>
-            </View>
+            
         </View>
 
     </View>

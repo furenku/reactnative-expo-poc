@@ -48,6 +48,7 @@ export const colors: Colors = {
   warning: '#ffc107',
   credential: '#611232',
   neutral: '#AAAAAA',
+  neutralDarkMid: '#767676',
   neutralDarker: '#161a1d',
   neutralDark: '#434343',
   neutralLight: '#DDDDDD',

@@ -15,6 +15,7 @@ export interface Colors {
   success: string;
   warning: string;
   neutral: string;
+  neutralDarkMid: string;
   neutralDarker: string;
   neutralDark: string;
   neutralLight: string;
