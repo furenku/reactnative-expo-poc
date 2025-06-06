@@ -3,6 +3,7 @@ import { Animated } from 'react-native';
 import { Splash } from './Splash/Splash';
 import { Onboarding } from '@pages/Onboarding/Onboarding';
 import { CredentialFlow } from '@/pages/appmx/CredentialFlow/CredentialFlow';
+import { ThemeProvider } from '@/context/ThemeContext';
 
 export const App = () => {
   
@@ -46,7 +47,7 @@ export const App = () => {
   };
 
   return (
-    <>
+    <ThemeProvider>
       {showSplash ? (
         <Animated.View style={{ opacity: fadeAnim, position: 'absolute', width: '100%', height: '100%', zIndex: 1 }}>
           <Splash />
@@ -62,6 +63,6 @@ export const App = () => {
           onDone={() => setOnboardingDone(true)}
         />
       )}
-    </>
+    </ThemeProvider>
   );
 }
