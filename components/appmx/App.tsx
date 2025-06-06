@@ -5,8 +5,11 @@ import { Onboarding } from '@pages/Onboarding/Onboarding';
 import { CredentialFlow } from '@/pages/appmx/CredentialFlow/CredentialFlow';
 
 export const App = () => {
+  
   const [showSplash, setShowSplash] = useState(true);
+
   const [onboardingDone, setOnboardingDone] = useState(false);
+
   const fadeAnim = new Animated.Value(0);
 
   useEffect(() => {

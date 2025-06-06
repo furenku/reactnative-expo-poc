@@ -119,8 +119,6 @@ const fadeAnim = useRef(new Animated.Value(showHeader ? 1 : 0)).current;
     <View 
       style={[ ui.container, { minHeight: '100%', flex: 1 }]} 
     >
-      {/* AppHeader */}
-      
         
       { showHeader && <AppHeader userName={userName} avatar={avatar}/> }
 

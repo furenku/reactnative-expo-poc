@@ -13,5 +13,12 @@ export default {
 
 export const Default = {
   args: {
+    showHeader: true
+  },
+};
+
+export const NoHeader = {
+  args: {
+    showHeader: false
   },
 };
