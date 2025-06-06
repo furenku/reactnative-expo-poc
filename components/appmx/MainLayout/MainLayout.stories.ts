@@ -26,6 +26,7 @@ export const NoHeader = {
 
 export const Biometrics = {
   args: {
+    showHeader: true,
     biometrics: 'pending'
   },
 };

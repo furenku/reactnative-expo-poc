@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Button } from '../ui/Button';
-import { StyleSheet, View, TouchableOpacity, Modal, Dimensions } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Modal, Dimensions, Animated } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from '@/context/ThemeContext';
 import { Text } from '../ui/Text';
@@ -11,7 +11,6 @@ interface BiometricOverlayProps {
   onDismiss: () => void;
 }
 
-const { width: screenWidth } = Dimensions.get('window');
 
 export const BiometricOverlay: React.FC<BiometricOverlayProps> = ({
   visible,
@@ -19,25 +18,26 @@ export const BiometricOverlay: React.FC<BiometricOverlayProps> = ({
   onDismiss
 }) => {
   const { theme, styles } = useTheme();
+  
 
   const ui = StyleSheet.create({
-    overlay: {
+    
+    container: {
+      // ...StyleSheet.absoluteFillObject,
       flex: 1,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
       justifyContent: 'flex-end',
     },
     sheet: {
-      backgroundColor: theme.colors.background,
-      width: screenWidth,
-      borderTopLeftRadius: theme.borderRadius.lg,
-      borderTopRightRadius: theme.borderRadius.lg,
-      paddingTop: theme.spacing.sm,
-      paddingBottom: theme.spacing.xxl, // Safe area padding for bottom
+      backgroundColor: theme.colors.surface,
+      borderTopLeftRadius: theme.spacing.lg,
+      borderTopRightRadius: theme.spacing.lg,
       paddingHorizontal: theme.spacing.lg,
+      paddingBottom: theme.spacing.xl,
+      paddingTop: theme.spacing.md,
     },
     handle: {
-      width: 40,
-      height: 4,
+      width: theme.spacing.xxl,
+      height: theme.spacing.xs,
       backgroundColor: theme.colors.neutral,
       borderRadius: theme.borderRadius.sm,
       alignSelf: 'center',
@@ -96,36 +96,42 @@ export const BiometricOverlay: React.FC<BiometricOverlayProps> = ({
   });
 
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="slide"
-      statusBarTranslucent
-      onRequestClose={onDismiss}
-    >
-      <TouchableOpacity 
-        style={ui.overlay} 
-        activeOpacity={1} 
-        onPress={onDismiss}
-      >
-        <TouchableOpacity activeOpacity={1} onPress={() => {}}>
+    <>      
+
+      {/* Modal with slide animation for sheet only */}
+      <Modal
+        visible={visible}
+        transparent
+        animationType="slide"
+        statusBarTranslucent
+        onRequestClose={onDismiss}
+      >        
+        <View style={ui.container}>
+          {/* Invisible touchable area for dismissing */}
+          <TouchableOpacity
+            style={{ flex: 1 }}
+            activeOpacity={1}
+            onPress={onDismiss}
+          />
+
+          {/* Bottom sheet that slides up */}
           <View style={ui.sheet}>
             <View style={ui.handle} />
-            
+
             <TouchableOpacity style={ui.closeButton} onPress={onDismiss}>
-              <MaterialCommunityIcons 
-                name="close" 
-                size={24} 
-                color={theme.colors.textSecondary} 
+              <MaterialCommunityIcons
+                name="close"
+                size={24}
+                color={theme.colors.textSecondary}
               />
             </TouchableOpacity>
 
             <View style={ui.iconContainer}>
               <View style={ui.faceIdIcon}>
-                <MaterialCommunityIcons 
-                  name="face-recognition" 
-                  size={64} 
-                  color={theme.colors.success} 
+                <MaterialCommunityIcons
+                  name="face-recognition"
+                  size={64}
+                  color={theme.colors.success}
                 />
               </View>
             </View>
@@ -137,7 +143,6 @@ export const BiometricOverlay: React.FC<BiometricOverlayProps> = ({
             <Text style={ui.description}>
               Activa el desbloqueo biométrico en este dispositivo para entrar más rápido y de forma segura.
             </Text>
-
 
             <Button
               title="Activar Face ID"
@@ -153,8 +158,8 @@ export const BiometricOverlay: React.FC<BiometricOverlayProps> = ({
               style={ui.dismissButton}
             />
           </View>
-        </TouchableOpacity>
-      </TouchableOpacity>
+        </View>
     </Modal>
+    </>
   );
 };

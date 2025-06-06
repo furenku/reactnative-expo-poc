@@ -2,20 +2,29 @@ import React from 'react';
 import type { Preview } from '@storybook/react-native-web-vite'
 
 import { ThemeProvider } from "../context/ThemeContext"
-import { View } from 'react-native';
+import { Dimensions, SafeAreaView, View } from 'react-native';
 
 const preview: Preview = {
   decorators: [
-    (Story) => (
+    (Story) => {
+      const { width, height } = Dimensions.get('window');
+
+      return (
       <ThemeProvider>
-        <View style={{ width: 375, height: 812, backgroundColor: '#f9f9f9',  display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <SafeAreaView style={{ 
+          display: 'flex',
+          width,
+          height, 
+          backgroundColor: '#a00',
+          padding: 0
+        }}>
           <Story />
-        </View>
+        </SafeAreaView>
       </ThemeProvider>
-    ),
+    )},
   ],
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
     controls: {
       matchers: {
        color: /(background|color)$/i,

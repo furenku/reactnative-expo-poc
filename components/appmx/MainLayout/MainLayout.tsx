@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, SafeAreaView, TouchableOpacity, Image, Dimensions, ScrollView } from 'react-native';
-import { useBaseStyles } from '@/styles/useBaseStyles';
 import { Text } from '../ui/Text';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from '@/context/ThemeContext';
@@ -13,7 +12,7 @@ interface MainLayoutProps {
   children: React.ReactNode;
   showHeader?: boolean;
   avatar?: string;
-  biometrics?: 'pending' | 'enabled' | 'disabled' | null;
+  biometrics?: 'pending' | 'enabled' | 'disabled';
   onBiometricActivate?: () => void;
   onBiometricDismiss?: () => void;
 }
@@ -27,8 +26,8 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   onBiometricActivate,
   onBiometricDismiss
 }) => {
-  const ui = useBaseStyles();
-  const theme = useTheme()
+
+  const {theme, styles} = useTheme()
 
   const fadeAnim = useRef(new Animated.Value(showHeader ? 1 : 0)).current;
 
@@ -40,12 +39,19 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
     }).start();
   }, [showHeader, fadeAnim]);
 
-  const styles = StyleSheet.create({
+
+  const ui = StyleSheet.create({
     container: {
-      width: '100%',
-      height: '100%',
+      flex: 1,
       backgroundColor: '#f5f5f5',
-      padding: 0
+      padding: 0,      
+      minHeight: Dimensions.get('window').height, // Add fallback height
+
+    },
+    backdrop: {
+      ...StyleSheet.absoluteFillObject,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      justifyContent: 'flex-end',
     },
     header: {
       width: '100%',
@@ -69,6 +75,8 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
     content: {
     },
     footer: {
+      // position: 'absolute',
+      // bottom: 0,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
@@ -85,7 +93,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
     footerIcon: {
       width: 24,
       height: 24,
-      backgroundColor: theme.theme.colors.primary,
+      backgroundColor: theme.colors.primary,
       borderRadius: 4,
     },
     footerIconInactive: {
@@ -96,7 +104,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
     },
     footerText: {
       fontSize: 12,
-      color: theme.theme.colors.primary,
+      color: theme.colors.primary,
       fontWeight: '500',
     },
     footerTextInactive: {
@@ -106,7 +114,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
     fabButton: {
       width: 56,
       height: 56,
-      backgroundColor: theme.theme.colors.primary,
+      backgroundColor: theme.colors.primary,
       borderRadius: 28,
       justifyContent: 'center',
       alignItems: 'center',
@@ -124,34 +132,70 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
     },
   });
   
+  const width = '100%'
+  const height = '100%'
+
+  const backdropOpacity = useRef(new Animated.Value(0)).current;
+  
+  // useEffect(() => {
+    if (biometrics === 'pending' ) {
+      Animated.timing(backdropOpacity, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(backdropOpacity, {
+        toValue: 0,
+        duration: 150,
+        useNativeDriver: true,
+      }).start();
+    }
+  // }, [visible]);
+
+  
   return (
     <View 
-      style={[ ui.container, { minHeight: '100%', flex: 1 }]} 
+      style={[
+        styles.container,
+      ]} 
     >
         
       { showHeader && <AppHeader userName={userName} avatar={avatar}/> }
 
       {/* Main Content */}
-      <ScrollView style={{flex: 1}} contentContainerStyle={[ui.container]}>
+      <ScrollView style={[styles.container]} contentContainerStyle={[styles.container]}>
         {children}
       </ScrollView>
 
       {/* Footer */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.footerButton}>
-          <View style={styles.footerIcon} />
-          <Text style={styles.footerText}>Inicio</Text>
+      <View style={ui.footer}>
+        <TouchableOpacity style={ui.footerButton}>
+          <View style={ui.footerIcon} />
+          <Text style={ui.footerText}>Inicio</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity style={styles.fabButton}>
+        <TouchableOpacity style={ui.fabButton}>
             <MaterialCommunityIcons name="qrcode-scan" size={32} color="#fff" />                  
         </TouchableOpacity>
         
-        <TouchableOpacity style={styles.footerButton}>
-          <View style={styles.footerIconInactive} />
-          <Text style={styles.footerTextInactive}>CABI</Text>
+        <TouchableOpacity style={ui.footerButton}>
+          <View style={ui.footerIconInactive} />
+          <Text style={ui.footerTextInactive}>CABI</Text>
         </TouchableOpacity>
       </View>
+
+{/* Fixed backdrop that fades in/out */}
+      {biometrics === 'pending' && (
+        <Animated.View
+          style={[
+            StyleSheet.absoluteFillObject,
+            ui.backdrop,
+            { opacity: backdropOpacity }
+          ]}
+          pointerEvents="none"
+        />
+      )}
 
       {/* Biometric Overlay */}
       <BiometricOverlay
