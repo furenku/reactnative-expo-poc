@@ -22,3 +22,10 @@ export const NoHeader = {
     showHeader: false
   },
 };
+
+
+export const Biometrics = {
+  args: {
+    biometrics: 'pending'
+  },
+};

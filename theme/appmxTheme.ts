@@ -44,7 +44,7 @@ export const colors: Colors = {
   text: '#212529',
   textSecondary: '#6c757d',
   danger: '#dc3545',
-  success: '#28a745',
+  success: '#2a872a',
   warning: '#ffc107',
   credential: '#611232',
   neutral: '#AAAAAA',
@@ -52,10 +52,7 @@ export const colors: Colors = {
   neutralDark: '#434343',
   neutralLight: '#DDDDDD',
   neutralLighter: '#f9f9f9',
-  secondaryGold: '#a57f2c',
-  // Camera specific colors
-  captureButton: '#ff0000',
-  captureButtonInner: '#cc0000',
+  secondaryGold: '#a57f2c'
 };
 
 export const spacing: Spacing = {
@@ -101,6 +98,7 @@ export const typography: Typography = {
   fontWeight: {
     normal: '400',
     medium: '500',
+    semiBold: '600',
     bold: '700',
   },
   lineHeight: {

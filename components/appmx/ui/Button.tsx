@@ -6,7 +6,7 @@ import { useBaseStyles } from '@/styles/useBaseStyles';
 interface ButtonProps {
   title: string;
   onPress: () => void;
-  variant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'primary' | 'secondary' | 'outline' | 'text';
   style?: ViewStyle;
   disabled?: boolean;
 }
@@ -29,7 +29,7 @@ export function Button({ title, onPress, variant = 'primary', disabled = false, 
   const disabledColor = colors.neutralLight;
 
   const getBaseColor = () => {
-    if (variant === 'outline') return 'transparent';
+    if (variant === 'outline' || variant === 'text') return 'transparent';
     return variant === 'primary' ? primaryColor : secondaryColor;
   };
 

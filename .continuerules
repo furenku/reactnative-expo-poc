@@ -1,1 +1,1 @@
-when creating components, always use our theme and base styles.
+when creating components, always use our theme and base styles, following ThemeContext.tsx

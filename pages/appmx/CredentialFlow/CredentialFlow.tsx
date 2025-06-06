@@ -16,7 +16,17 @@ import { ProgressSteps } from './ProgressSteps';
 
 type FlowStep = 'start' | 'curp' | 'validation' | 'proofOfLife' | 'consent' | 'processing' | 'success' | 'credential';
 
-export const CredentialFlow: React.FC = () => {
+interface CredentialFlowProps {
+  biometrics: 'enabled' | 'disabled';
+  onBiometricActivate: () => void;
+  onBiometricDismiss: () => void;
+}
+
+export const CredentialFlow: React.FC<CredentialFlowProps> = ({
+  biometrics,
+  onBiometricActivate,
+  onBiometricDismiss
+}) => {
 
   const [userName, setUserName] = useState<string>('');
 
@@ -128,7 +138,14 @@ export const CredentialFlow: React.FC = () => {
 
 
   return (
-    <MainLayout showHeader={showHeader} userName={userName} avatar={photoUri}>
+    <MainLayout
+      showHeader={showHeader}
+      userName={userName}
+      avatar={photoUri}
+      biometrics={biometrics}
+      onBiometricActivate={onBiometricActivate}
+      onBiometricDismiss={onBiometricDismiss}    
+    >
       {showProgress && (
         <Animated.View style={{ opacity: fadeAnim }}>
           <ProgressSteps stepNumber={progress} />

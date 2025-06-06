@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View, SafeAreaView, TouchableOpacity, Image, Dimensions, ScrollView } from 'react-native';
 import { useBaseStyles } from '@/styles/useBaseStyles';
 import { Text } from '../ui/Text';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from '@/context/ThemeContext';
 import { AppHeader } from '../AppHeader/AppHeader';
+import { BiometricOverlay } from '../BiometricOverlay/BiometricOverlay';
 import { Animated } from 'react-native'
 
 interface MainLayoutProps {
@@ -12,15 +13,24 @@ interface MainLayoutProps {
   children: React.ReactNode;
   showHeader?: boolean;
   avatar?: string;
+  biometrics?: 'pending' | 'enabled' | 'disabled' | null;
+  onBiometricActivate?: () => void;
+  onBiometricDismiss?: () => void;
 }
 
-export const MainLayout: React.FC<MainLayoutProps> = ({ userName, showHeader, children, avatar }) => {
+export const MainLayout: React.FC<MainLayoutProps> = ({ 
+  userName, 
+  showHeader, 
+  children, 
+  avatar, 
+  biometrics,
+  onBiometricActivate,
+  onBiometricDismiss
+}) => {
   const ui = useBaseStyles();
   const theme = useTheme()
 
-
-
-const fadeAnim = useRef(new Animated.Value(showHeader ? 1 : 0)).current;
+  const fadeAnim = useRef(new Animated.Value(showHeader ? 1 : 0)).current;
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -29,7 +39,6 @@ const fadeAnim = useRef(new Animated.Value(showHeader ? 1 : 0)).current;
       useNativeDriver: true,
     }).start();
   }, [showHeader, fadeAnim]);
-
 
   const styles = StyleSheet.create({
     container: {
@@ -122,7 +131,6 @@ const fadeAnim = useRef(new Animated.Value(showHeader ? 1 : 0)).current;
         
       { showHeader && <AppHeader userName={userName} avatar={avatar}/> }
 
-
       {/* Main Content */}
       <ScrollView style={{flex: 1}} contentContainerStyle={[ui.container]}>
         {children}
@@ -144,6 +152,13 @@ const fadeAnim = useRef(new Animated.Value(showHeader ? 1 : 0)).current;
           <Text style={styles.footerTextInactive}>CABI</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Biometric Overlay */}
+      <BiometricOverlay
+        visible={biometrics === 'pending'}
+        onActivate={() => onBiometricActivate?.()}
+        onDismiss={() => onBiometricDismiss?.()}
+      />
     </View>
   );
 };

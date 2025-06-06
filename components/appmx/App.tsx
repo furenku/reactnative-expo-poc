@@ -7,8 +7,8 @@ import { CredentialFlow } from '@/pages/appmx/CredentialFlow/CredentialFlow';
 export const App = () => {
   
   const [showSplash, setShowSplash] = useState(true);
-
   const [onboardingDone, setOnboardingDone] = useState(false);
+  const [biometrics, setBiometrics] = useState<'pending' | 'enabled' | 'disabled' | null>(null);
 
   const fadeAnim = new Animated.Value(0);
 
@@ -28,11 +28,22 @@ export const App = () => {
         useNativeDriver: true,
       }).start(() => {
         setShowSplash(false);
+        // Show biometric prompt after splash
+        setBiometrics('pending');
       });
     }, 2500);
 
     return () => clearTimeout(timer);
   }, []);
+
+  const handleBiometricActivate = () => {
+    setBiometrics('enabled');
+    // Add your biometric activation logic here
+  };
+
+  const handleBiometricDismiss = () => {
+    setBiometrics('disabled');
+  };
 
   return (
     <>
@@ -41,9 +52,15 @@ export const App = () => {
           <Splash />
         </Animated.View>
       ): onboardingDone ? (
-        <CredentialFlow/>
+        <CredentialFlow
+          biometrics='enabled'
+          onBiometricActivate={handleBiometricActivate}
+          onBiometricDismiss={handleBiometricDismiss}
+        />
       ) : (
-        <Onboarding onDone={() => setOnboardingDone(true)} />
+        <Onboarding 
+          onDone={() => setOnboardingDone(true)}
+        />
       )}
     </>
   );
