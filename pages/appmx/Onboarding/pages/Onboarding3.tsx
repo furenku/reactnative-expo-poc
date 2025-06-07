@@ -47,12 +47,15 @@ export const Onboarding3: React.FC = () => {
           </View>
         </View>
 
-        {/* Title */}
-        <Text style={[baseStyles.text, styles.title]}>
-          Solicita asistencia
-          <br />
-          CABI 079
-        </Text>
+        <View style={{marginBottom: theme.spacing.lg}}>
+          {/* Title */}
+          <Text style={[baseStyles.text, styles.title]}>
+            Solicita asistencia          
+          </Text>
+          <Text style={[baseStyles.text, styles.title]}>
+            CABI 079
+          </Text>
+        </View>
 
         {/* Subtitle */}
         <Text style={[baseStyles.text, styles.subtitle]}>
@@ -109,8 +112,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 16,
-    lineHeight: 30,
+    lineHeight: 28,
   },
   subtitle: {
     fontSize: 16,
