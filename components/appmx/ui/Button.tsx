@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { TouchableOpacity, Text, ViewStyle, Animated } from 'react-native';
-import { colors } from '@/theme/appmxTheme';
-import { useBaseStyles } from '@/styles/useBaseStyles';
+import { TouchableOpacity, ViewStyle, Animated, View, Text } from 'react-native';
+import { useTheme } from '@/context/ThemeContext';
 
 interface ButtonProps {
   title: string;
@@ -12,7 +11,8 @@ interface ButtonProps {
 }
 
 export function Button({ title, onPress, variant = 'primary', disabled = false, style }: ButtonProps) {
-  const baseStyles = useBaseStyles();
+  const { theme: { colors }, styles } = useTheme()
+
   const animatedValue = useRef(new Animated.Value(disabled ? 0 : 1)).current;
 
   useEffect(() => {
@@ -54,20 +54,20 @@ export function Button({ title, onPress, variant = 'primary', disabled = false, 
     }),
   };
 
-  const baseButtonStyle = variant === 'primary' ? baseStyles.button : baseStyles.buttonSecondary;
+  const buttonStyle = variant === 'primary' ? styles.button : styles.buttonSecondary;
 
   return (
-    <Animated.View style={[baseButtonStyle, animatedButtonStyle, style]}>
+    <View style={[buttonStyle, style]}>
       <TouchableOpacity
         style={{ width: '100%', height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}
         onPress={onPress}
         disabled={disabled}
         activeOpacity={0.8}
       >
-        <Animated.Text style={[baseStyles.buttonText, animatedTextColor]}>
+        <Text style={[styles.buttonText + disabled ? [styles.buttonDisabledText, styles.buttonDisabled] : {}, {  height: 32}]}>
           {title}
-        </Animated.Text>
+        </Text>
       </TouchableOpacity>
-    </Animated.View>
+    </View>
   );
 }

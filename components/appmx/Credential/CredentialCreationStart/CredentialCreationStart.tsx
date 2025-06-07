@@ -61,7 +61,13 @@ export const CredentialCreationStart: React.FC<CredentialCreationStartProps> = (
           </View>
         </View>
 
-        <Button title='Crear credencial' onPress={onStart}/>
+        <View style={{
+          height: 48,
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <Button title='Crear credencial' onPress={onStart}/>
+        </View>
 
       </View>
     </View>

@@ -120,7 +120,7 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     
   },
   buttonContainer: {
-    marginBottom: theme.spacing.xl * 2,
+    marginBottom: theme.spacing.xl,
   },
   buttonDisabled: {
     backgroundColor: theme.colors.textSecondary,
