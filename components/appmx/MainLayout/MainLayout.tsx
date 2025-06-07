@@ -8,10 +8,15 @@ import { BiometricOverlay } from '../BiometricOverlay/BiometricOverlay';
 import { AppFooter } from '../AppFooter/AppFooter';
 import { Animated } from 'react-native'
 
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+
+
 interface MainLayoutProps {
   userName?: string;
   children: React.ReactNode;
   showHeader?: boolean;
+  showFooter?: boolean;
   avatar?: string;
   biometrics?: 'pending' | 'enabled' | 'disabled';
   onBiometricActivate?: () => void;
@@ -19,11 +24,19 @@ interface MainLayoutProps {
   onHomePress?: () => void;
   onScanPress?: () => void;
   onCabiPress?: () => void;
+  customInsets?: {
+    top?: boolean;
+    bottom?: boolean;
+    left?: boolean;
+    right?: boolean;
+  };
+  useSafeArea?: boolean;
 }
 
 export const MainLayout: React.FC<MainLayoutProps> = ({ 
   userName, 
-  showHeader, 
+  showHeader,
+  showFooter, 
   children, 
   avatar, 
   biometrics,
@@ -31,13 +44,26 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   onBiometricDismiss,
   onHomePress,
   onScanPress,
-  onCabiPress
+  onCabiPress,
+  customInsets,
+  useSafeArea = true
 }) => {
 
   const {theme, styles} = useTheme()
 
   const fadeAnim = useRef(new Animated.Value(showHeader ? 1 : 0)).current;
 
+  const safeAreaInsets = useSafeAreaInsets();
+
+  const insets = useSafeArea
+    ? safeAreaInsets
+    : {
+    top: (customInsets?.top && safeAreaInsets.top) || 0,
+    bottom: (customInsets?.bottom && safeAreaInsets.bottom) || 0,
+    left: (customInsets?.left && safeAreaInsets.left) || 0,
+    right: (customInsets?.right && safeAreaInsets.right) || 0
+  };
+  
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: showHeader ? 1 : 0,
@@ -51,9 +77,10 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
       flex: 1,
       backgroundColor: '#f5f5f5',
       padding: 0,      
-      minHeight: Dimensions.get('window').height, // Add fallback height
-      borderWidth: 10,
-      borderColor: 'red'
+      paddingTop: insets.top,
+      paddingBottom: insets.bottom,
+      paddingLeft: insets.left,
+      paddingRight: insets.right,
     },
     backdrop: {
       ...StyleSheet.absoluteFillObject,
@@ -61,9 +88,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
       justifyContent: 'flex-end',
     },
   });
-  const width = '100%'
-  const height = '100%'
-
+  
   const backdropOpacity = useRef(new Animated.Value(0)).current;
   
   // useEffect(() => {
@@ -86,7 +111,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   return (
     <View 
       style={[
-        styles.container,
+        ui.container,
         { flex: 1 }
       ]} 
     >
@@ -98,8 +123,8 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
         {children}
       </ScrollView>
 
-      {/* Footer */}
-      <AppFooter/>
+      { showFooter && <AppFooter /> }
+      
 {/* Fixed backdrop that fades in/out */}
       {biometrics === 'pending' && (
         <Animated.View

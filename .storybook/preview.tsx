@@ -4,6 +4,9 @@ import type { Preview } from '@storybook/react-native-web-vite'
 import { ThemeProvider } from "../context/ThemeContext"
 import { Dimensions, SafeAreaView, View } from 'react-native';
 
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+
 const preview: Preview = {
   decorators: [
     (Story) => {
@@ -11,15 +14,17 @@ const preview: Preview = {
 
       return (
       <ThemeProvider>
-        <SafeAreaView style={{ 
-          display: 'flex',
-          width,
-          height, 
-          backgroundColor: '#a00',
-          padding: 0
-        }}>
-          <Story />
-        </SafeAreaView>
+        <SafeAreaProvider>
+          <View style={{ 
+            display: 'flex',
+            width,
+            height, 
+            backgroundColor: '#a00',
+            padding: 0
+          }}>
+            <Story />
+          </View>
+        </SafeAreaProvider>
       </ThemeProvider>
     )},
   ],

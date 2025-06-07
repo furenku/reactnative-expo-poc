@@ -1,18 +1,21 @@
 import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, Image, Animated } from 'react-native';
 import { useTheme } from '@/context/ThemeContext';
+import { StatusBar } from 'expo-status-bar';
 
 interface SplashProps {
   onAnimationComplete?: () => void;
 }
 
-
 const ui = StyleSheet.create({
   splashContainer: {
     flex: 1,
-    position: 'relative',
-    width: '100%',
-    height: '100%'
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1    
   },
   backgroundImage: {
     position: 'absolute',
@@ -31,7 +34,6 @@ const ui = StyleSheet.create({
   logo: {
     width: 150,
     height: 150,
-    // Add shadow for floating effect
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -42,8 +44,6 @@ const ui = StyleSheet.create({
     elevation: 8,
     zIndex: 9999
   },
-
-  
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0, 0, 0, 0.35)',
@@ -56,48 +56,43 @@ export const Splash: React.FC<SplashProps> = ({ onAnimationComplete }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    // Fade in animation
     Animated.sequence([
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 1000,
         useNativeDriver: true,
       }),
-      // Hold for a moment
       Animated.delay(1500),
-      // Fade out animation
       Animated.timing(fadeAnim, {
         toValue: 0,
         duration: 800,
         useNativeDriver: true,
       })
     ]).start(() => {
-      // Animation complete callback
-      if( onAnimationComplete ) {
-        onAnimationComplete?.();
+      if (onAnimationComplete) {
+        onAnimationComplete();
       }
     });
   }, [fadeAnim, onAnimationComplete]);
 
   return (
     <View style={[styles.containerCentered, ui.splashContainer]}>
-      {/* Background Image */}
+      <StatusBar hidden />
       <Image
-        source={require('@/assets/images/splash-bg.png')} // Update path to your background image
+        source={require('@/assets/images/splash-bg.png')}
         style={ui.backgroundImage}
         resizeMode="cover"
       />
       <View style={ui.overlay} />
       
-
-      {/* Floating Logo with Animation */}
-      <View style={[ui.logoContainer, { opacity: fadeAnim }]}>
+      {/* Use Animated.View instead of regular View with opacity */}
+      <Animated.View style={[ui.logoContainer, { opacity: fadeAnim }]}>
         <Image
-          source={require('@/assets/images/logo.png')} // Update path to your logo
+          source={require('@/assets/images/logo.png')}
           style={ui.logo}
           resizeMode="contain"
         />
-      </View>
+      </Animated.View>
     </View>
   );
 };

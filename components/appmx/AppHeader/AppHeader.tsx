@@ -20,6 +20,7 @@ export const AppHeader = ({ userName, avatar }: { userName?: string, avatar?: st
       alignItems: 'center',
       gap: theme.spacing.md,
       padding: theme.spacing.sm,
+      backgroundColor: theme.colors.white
     },
     logo: {
       width: 32,

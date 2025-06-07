@@ -23,15 +23,15 @@ export const AppFooter: React.FC = () => {
             height: 24
             }}>
             <Image
-                style={{flex: 1}}
+                style={{
+                    width: '100%',
+                    height: '100%',
+                }}
                 source={require('@assets/images/onboarding/cabi-logo.png')}
                 resizeMode="contain"                
             />
             </View>
-            
-        
-    
-            {/* Title */}
+                    
             <Text style={[styles.text, styles.semiBold, {color: theme.colors.primary}]}>
             079
             </Text>
@@ -63,6 +63,8 @@ const createStyles = (theme: Theme) => StyleSheet.create({
     width: '100%',
     paddingHorizontal: theme.spacing.lg,
     paddingBottom: theme.spacing.lg,
+    backgroundColor: theme.colors.white,
+
   },
   
   footerButton: {

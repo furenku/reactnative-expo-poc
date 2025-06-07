@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Animated } from 'react-native';
+import { Animated, SafeAreaView, View } from 'react-native';
 import { Splash } from './Splash/Splash';
 import { Onboarding } from '@pages/Onboarding/Onboarding';
 import { CredentialFlow } from '@/pages/appmx/CredentialFlow/CredentialFlow';
 import { ThemeProvider } from '@/context/ThemeContext';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { MainLayout } from './MainLayout/MainLayout';
 
 export const App = () => {
   
@@ -48,21 +50,32 @@ export const App = () => {
 
   return (
     <ThemeProvider>
-      {showSplash ? (
-        <Animated.View style={{ opacity: fadeAnim, position: 'absolute', width: '100%', height: '100%', zIndex: 1 }}>
-          <Splash />
-        </Animated.View>
-      ): onboardingDone ? (
-        <CredentialFlow
-          biometrics='enabled'
-          onBiometricActivate={handleBiometricActivate}
-          onBiometricDismiss={handleBiometricDismiss}
-        />
-      ) : (
-        <Onboarding 
-          onDone={() => setOnboardingDone(true)}
-        />
-      )}
+      <SafeAreaProvider>
+        <View style={{
+          flex: 1,          
+          backgroundColor: '#ffffff',
+        }}>
+        {showSplash ? (
+            <Animated.View style={{ opacity: fadeAnim, position: 'absolute', width: '100%', height: '100%', zIndex: 1 }}>
+              <Splash />
+            </Animated.View>
+          ): onboardingDone ? (
+            <CredentialFlow
+              biometrics='enabled'
+              onBiometricActivate={handleBiometricActivate}
+              onBiometricDismiss={handleBiometricDismiss}
+            />
+          ) : (
+            <MainLayout useSafeArea={false} customInsets={{
+              bottom: true
+            }}>
+              <Onboarding 
+                onDone={() => setOnboardingDone(true)}
+              />
+            </MainLayout>
+        )}
+        </View>
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 }

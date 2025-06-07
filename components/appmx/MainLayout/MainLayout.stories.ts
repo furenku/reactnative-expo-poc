@@ -13,13 +13,15 @@ export default {
 
 export const Default = {
   args: {
-    showHeader: true
+    showHeader: true,
+    showFooter: true
   },
 };
 
-export const NoHeader = {
+export const NoHeaderFooter = {
   args: {
-    showHeader: false
+    showHeader: false,
+    showFooter: false
   },
 };
 
@@ -27,6 +29,7 @@ export const NoHeader = {
 export const Biometrics = {
   args: {
     showHeader: true,
+    showFooter: false,
     biometrics: 'pending'
   },
 };

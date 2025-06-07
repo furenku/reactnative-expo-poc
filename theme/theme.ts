@@ -60,6 +60,7 @@ export const colors: Colors = {
   credential: '#611232',
   neutralDarker: '#161a1d',
   neutralDark: '#434343',
+  neutralDarkMid: '#797979',
   neutral: '#aaaaaa',
   neutralLight: '#dddddd',
   neutralLighter: '#f9f9f9',

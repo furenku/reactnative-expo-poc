@@ -98,11 +98,11 @@ export const createBaseStyles = (theme: Theme) => StyleSheet.create({
 
   button: {
     backgroundColor: theme.colors.primary,
-    paddingVertical: theme.spacing.sm,
+    paddingVertical: theme.spacing.md,
     paddingHorizontal: theme.spacing.lg,
     borderRadius: theme.borderRadius.md,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center',     
   },
   buttonDisabled: {
     backgroundColor: theme.colors.neutralLight,
@@ -123,10 +123,16 @@ export const createBaseStyles = (theme: Theme) => StyleSheet.create({
     justifyContent: 'center',
   },
   buttonText: {
+    height: '100%',
     color: theme.colors.white,
     fontSize: theme.typography.fontSize.medium,
+    lineHeight: theme.typography.fontSize.medium,    
     fontFamily: theme.typography.fonts.semiBold,
   },
+  buttonDisabledText: {
+    color: theme.colors.neutralDark
+  },
+
 
   
   textInput: {

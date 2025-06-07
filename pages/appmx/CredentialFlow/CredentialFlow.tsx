@@ -14,7 +14,7 @@ import CredentialReadyStories from '../../../components/appmx/Credential/Credent
 import { CameraView } from 'expo-camera';
 import { ProgressSteps } from './ProgressSteps';
 
-type FlowStep = 'start' | 'curp' | 'validation' | 'proofOfLife' | 'consent' | 'processing' | 'success' | 'credential';
+type FlowStep = 'start' | 'curp' | 'validation' | 'proofOfLife' | 'consent' | 'processing' | 'success' | 'credentialReady';
 
 interface CredentialFlowProps {
   biometrics: 'enabled' | 'disabled';
@@ -37,7 +37,8 @@ export const CredentialFlow: React.FC<CredentialFlowProps> = ({
   const cameraRef = useRef<CameraView>(null);
 
   const showProgress = ['curp','validation','consent'].includes(currentStep);
-  const showHeader = ['start','success','credential'].includes(currentStep);
+  const showHeader = ['start','success','credentialReady'].includes(currentStep);
+  const showFooter = ['start','credentialReady'].includes(currentStep);
   const fadeAnim = useRef(new Animated.Value(showProgress ? 1 : 0)).current;
 
   useEffect(() => {
@@ -100,7 +101,7 @@ export const CredentialFlow: React.FC<CredentialFlowProps> = ({
 
 
   const handleSuccessComplete = () => {
-    setCurrentStep('credential');
+    setCurrentStep('credentialReady');
   };
 
   const renderCurrentStep = () => {
@@ -129,7 +130,7 @@ export const CredentialFlow: React.FC<CredentialFlowProps> = ({
         return <Processing onComplete={handleProcessingComplete}/>;
       case 'success':
         return <Success onComplete={handleSuccessComplete}/>; 
-      case 'credential':
+      case 'credentialReady':
         return <CredentialReady photoUri={photoUri} />;
       default:        
         return <CredentialCreationStart onStart={handleStartFlow} />;
@@ -140,6 +141,7 @@ export const CredentialFlow: React.FC<CredentialFlowProps> = ({
   return (
     <MainLayout
       showHeader={showHeader}
+      showFooter={showFooter}
       userName={userName}
       avatar={photoUri}
       biometrics={biometrics}
