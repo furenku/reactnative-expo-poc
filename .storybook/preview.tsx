@@ -17,9 +17,10 @@ const preview: Preview = {
         <SafeAreaProvider>
           <View style={{ 
             display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
             width,
             height, 
-            backgroundColor: '#a00',
             padding: 0
           }}>
             <Story />
