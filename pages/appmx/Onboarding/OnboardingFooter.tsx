@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Pressable } from 'react-native';
 import { useTheme } from '@/context/ThemeContext';
 import { Text } from '@components/appmx/ui/Text';
+import { Button } from '@/components/appmx/ui/Button/Button';
 
 interface ProgressDot {
   isActive: boolean;
@@ -14,7 +15,6 @@ interface OnboardingFooterProps {
   onNext: () => void;
   onSkip: () => void;
   onPrevious?: () => void;
-  showSkip?: boolean;
 }
 
 
@@ -23,8 +23,7 @@ export const OnboardingFooter: React.FC<OnboardingFooterProps> = ({
   totalPages,
   onNext,
   onSkip,
-  onPrevious,
-  showSkip = true,
+  onPrevious
 }) => {
   const { theme, styles: baseStyles } = useTheme();
   const isLastPage = currentPage === totalPages - 1;
@@ -53,36 +52,8 @@ export const OnboardingFooter: React.FC<OnboardingFooterProps> = ({
     buttonContainer: {
       flexDirection: 'row',
       gap: 16,
-      width: '100%',
-    },
-    button: {
-      flex: 1,
-      paddingVertical: 10,
-      paddingHorizontal: 24,
-      borderRadius: 12,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    secondaryButton: {
-      backgroundColor: 'transparent',
-      borderWidth: 1,
-      borderColor: theme.colors.primary,
-      flexGrow: 1
-    },
-    primaryButton: {
-      flexGrow: 3
-      // backgroundColor will be set from theme
-    },
-    secondaryButtonText: {
-      color: theme.colors.primary,
-      fontSize: 16,
-      fontWeight: '600',
-    },
-    primaryButtonText: {
-      fontSize: 16,
-      fontWeight: '600',
-      color: '#FFFFFF',
-    },
+      width: '100%'      
+    }
   });
 
 
@@ -122,29 +93,20 @@ export const OnboardingFooter: React.FC<OnboardingFooterProps> = ({
 
       {/* Buttons */}
       <View style={styles.buttonContainer}>
-        {showSkip && (
-          <Pressable
-            style={[styles.button, styles.secondaryButton]}
-            onPress={onSkip}
-          >
-            <Text style={[baseStyles.text, styles.secondaryButtonText]}>
-              Omitir
-            </Text>
-          </Pressable>
-        )}
+        <Button
+          title="Omitir"
+          onPress={onSkip}
+          variant="outline"
+        />
+      
         
-        <Pressable
-          style={[
-            styles.button,
-            styles.primaryButton,
-            { backgroundColor: theme.colors.primary }
-          ]}
+
+        <Button
+          title={isLastPage ? 'Comenzar' : 'Siguiente'}
           onPress={onNext}
-        >
-          <Text style={[baseStyles.text, styles.primaryButtonText]}>
-            {isLastPage ? 'Comenzar' : 'Siguiente'}
-          </Text>
-        </Pressable>
+          style={{ flex: 1 }}
+        />
+
       </View>
     </View>
   );

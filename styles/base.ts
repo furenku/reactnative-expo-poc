@@ -96,7 +96,8 @@ export const createBaseStyles = (theme: Theme) => StyleSheet.create({
     fontSize: theme.typography.fontSize.medium,
   },
 
-  button: {
+  button: {    
+    flexDirection: "row",
     backgroundColor: theme.colors.primary,
     paddingVertical: theme.spacing.md,
     paddingHorizontal: theme.spacing.lg,
@@ -104,24 +105,32 @@ export const createBaseStyles = (theme: Theme) => StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',     
   },
+
+  buttonPrimary: {    
+    backgroundColor: theme.colors.primary,
+    color: 'white'
+  },
+
   buttonDisabled: {
-    backgroundColor: theme.colors.neutralLight,
-    color: theme.colors.neutralDark,
-    paddingVertical: theme.spacing.sm,
-    paddingHorizontal: theme.spacing.lg,
-    borderRadius: theme.borderRadius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: theme.colors.neutralLight,    
   },
 
   buttonSecondary: {
     backgroundColor: theme.colors.secondary,
-    paddingVertical: theme.spacing.sm,
-    paddingHorizontal: theme.spacing.lg,
-    borderRadius: theme.borderRadius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
+    color: 'white'
   },
+
+  buttonOutline: {    
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+    backgroundColor: 'transparent'
+  },
+
+  buttonOutlineText: {    
+    color: theme.colors.primary    
+  },
+
+
   buttonText: {
     height: '100%',
     color: theme.colors.white,

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Image, ScrollView } from 'react-native';
 import { useBaseStyles } from '@/styles/useBaseStyles';
 import { Text } from '../../ui/Text';
-import { Button } from '@/components/appmx/ui/Button';
+import { Button } from '@/components/appmx/ui/Button/Button';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Theme } from '@/types/theme';
 import { useTheme } from '@/context/ThemeContext';

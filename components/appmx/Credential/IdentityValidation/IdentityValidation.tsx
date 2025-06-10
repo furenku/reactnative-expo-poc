@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { useTheme } from '@/context/ThemeContext';
-import { Button } from '@components/appmx/ui/Button';
+import { Button } from '@/components/appmx/ui/Button/Button';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export const IdentityValidation: React.FC<{ onContinue: () => void }> = ({ onContinue }) => {

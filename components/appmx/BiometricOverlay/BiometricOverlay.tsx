@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/Button/Button';
 import { StyleSheet, View, TouchableOpacity, Modal, Dimensions, Animated } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from '@/context/ThemeContext';
